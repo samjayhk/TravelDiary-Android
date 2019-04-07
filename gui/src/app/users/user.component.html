@@ -1,0 +1,35 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="background" (click)="closeUser()">
+  <div class="user-box" (click)="$event.stopPropagation()">
+    <div class="container">
+      <div class="title">
+        <div>Travel Diary</div>
+      </div>
+      <div class="user-input">
+        <div class="input" *ngIf="!session">
+          <input type="text" name="username" placeholder="Username" autocomplete="off" autofocus="on" [(ngModel)]="username">
+          <input type="password" name="oldPassword" placeholder="Password" autocomplete="off" [(ngModel)]="oldPassword" *ngIf="register!==2">
+          <input type="password" name="newPassword" placeholder="Confirm Password" autocomplete="off" [(ngModel)]="newPassword" *ngIf="register===1" >
+          <input type="email" name="email" placeholder="Email" autocomplete="off" [(ngModel)]="email" *ngIf="register!==0" >
+          <div class="forgot-password" (click)="btnForgot()" *ngIf="register!==2">Forgot Password?</div>
+        </div>
+        <div class="input" *ngIf="session">
+          <div>{{localSession.username}}</div>
+          <div>{{localSession.reg | date}} (Reg)</div>
+          <div>{{localSession.last | date}} (Last)</div>
+          <div>{{localSession.email}}</div>
+        </div>
+      </div>
+      <div class="user-button">
+        <div class="btn-register" (click)="btnRegister()">
+          <div *ngIf="register!==0 && !session">Login</div>
+          <div *ngIf="register===0 && !session">Register</div>
+        </div>
+        <div class="btn-login" (click)="btnSubmit()">
+          <div *ngIf="!session">Submit</div>
+          <div *ngIf="session">Logout</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

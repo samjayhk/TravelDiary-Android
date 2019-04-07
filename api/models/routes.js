@@ -17,15 +17,16 @@ const parseToken = async(token, result) => {
 }
 
 const routes = (server) => {
-    server.get('/', function(req, res){
-        var body = '<html><body>This is the API of Travel Web!</body></html>'
-        res.writeHead(200, {
-        'Content-Length': Buffer.byteLength(body),
-        'Content-Type': 'text/html'
-        });
-        res.write(body)
-        res.end()
-    });
+
+	server.get('/', function(req, res){
+			var body = '<html><body>This is the API of Travel Web!</body></html>'
+			res.writeHead(200, {
+			'Content-Length': Buffer.byteLength(body),
+			'Content-Type': 'text/html'
+			});
+			res.write(body)
+			res.end()
+	});
 
 	server.post('/users/register', async (req, res, next) => {
 		if (!req.is('application/json')) {
@@ -86,14 +87,14 @@ const routes = (server) => {
     })
     
     server.get('/thread/:page', async (req, res, next) => {
-        const { page } = req.params
-		try {
-			res.send(await db.threads().list(page))
-		} catch( error) {
-			res.send(error)
-		}
-		next()
-	})
+			const { page } = req.params
+			try {
+				res.send(await db.threads().list(page))
+			} catch( error) {
+				res.send(error)
+			}
+			next()
+		})
 
 	server.get('/thread/:pid/:page', async (req, res, next) => {
 		const { pid, page } = req.params
@@ -125,11 +126,7 @@ const routes = (server) => {
 	})
 
 	server.post('/thread/write', async (req, res, next) => {
-		if (!req.is('application/json')) {
-			return next(
-				new errors.InvalidContentError("Expects 'application/json'"),
-			);
-		}
+		
 		const { subject, content, tid } = req.params
 		const token = req.headers['x-token']
 
@@ -152,11 +149,6 @@ const routes = (server) => {
 	})
 	
 	server.post('/thread/:pid/write', async (req, res, next) => {
-		if (!req.is('application/json')) {
-			return next(
-				new errors.InvalidContentError("Expects 'application/json'"),
-			);
-		}
 		const { pid, comment } = req.params
 		const token = req.headers['x-token']
 
@@ -182,12 +174,12 @@ const routes = (server) => {
 		var filename = ''
 		for (var key in req.files) {
 		  if (req.files.hasOwnProperty(key)) {
-			if (req.files[key].size < 2000000) {
-				filename = Date.now() + '_' + `${req.files[key].name}`
-				fs.renameSync(req.files[key].path, `${__dirname}` + '/../uploads/' + filename)
-			} else {
-				res.send({result: false, message: 'Files was over the limit (2MB).'})
-			}
+				if (req.files[key].size < 2000000) {
+					filename = Date.now() + '_' + `${req.files[key].name}`
+					fs.renameSync(req.files[key].path, `${__dirname}` + '/../server/uploads/' + filename)
+				} else {
+					res.send({result: false, message: 'Files was over the limit (2MB).'})
+				}
 		  }
 		}
 		res.send({result: true, message: 'Successfully upload files.', filename: filename})
@@ -195,11 +187,6 @@ const routes = (server) => {
 	})
 
 	server.put('/thread/:pid/update', (req, res, next) => {
-		if (!req.is('application/json')) {
-			return next(
-				new errors.InvalidContentError("Expects 'application/json'"),
-			);
-		}
 		const { pid, subject, content, tid } = req.params
 		const token = req.headers['x-token']
 
@@ -222,11 +209,6 @@ const routes = (server) => {
 	})
 
 	server.put('/thread/comment/:cid/update', (req, res, next) => {
-		if (!req.is('application/json')) {
-			return next(
-				new errors.InvalidContentError("Expects 'application/json'"),
-			);
-		}
 		const { cid, comment } = req.params
 		const token = req.headers['x-token']
 

@@ -9,6 +9,10 @@ server.use(restify.plugins.queryParser())
 server.pre(restify.pre.sanitizePath())
 server.use(restify.plugins.bodyParser({ mapParams: true, requestBodyOnGet: true }))
 
+server.get('/uploads/*', restify.plugins.serveStatic({
+    directory: __dirname,
+  }))
+
 routes(server)
 
 module.exports = server

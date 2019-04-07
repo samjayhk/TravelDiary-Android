@@ -72,7 +72,7 @@ const users = deps => {
 						if (passwordIsValid) {
 							updateSignDate(result[0], deps, async (itime) => {
 								const token = await createToken(result[0])
-								resolve({ result: true, message: 'Wellcome back. Your last login date is ' + (itime), token: token })
+								resolve({ result: true, message: 'Wellcome back. Your last login date is ' + (itime), username: result[0].username, reg: result[0].time, last: Date.now(), email: result[0].email, token: token})
 							})
 						} else {
 							resolve({ result: false, message: 'Password incorrect.' })

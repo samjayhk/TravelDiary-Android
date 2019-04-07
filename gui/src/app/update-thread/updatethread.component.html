@@ -1,0 +1,25 @@
+<!--The content below is only a placeholder and can be replaced.-->
+
+<div class="background">
+  <div class="input">
+    <div class="tags">
+      <div ngbDropdown class="d-inline-block">
+        <div id="dropdownBasic1" ngbDropdownToggle>{{currentTags.name}}</div>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <ng-container *ngFor="let t of tagsList" >
+              <button (click)="changeTags(t.tid, t.name)" ngbDropdownItem>{{t.name}}</button>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+    <div class="title">
+      <input type="text" placeholder="title" [(ngModel)]="title">
+    </div>
+  </div>
+  <quill-editor [(ngModel)]="editorContent" (onEditorCreated)="getEditorInstance($event)"></quill-editor>
+  <input type="file" style="display: none" id="fileInputField"/>
+</div>
+
+<div class="container">
+  <div class="btnSubmit" (click)="submit()">Submit</div>
+</div>
