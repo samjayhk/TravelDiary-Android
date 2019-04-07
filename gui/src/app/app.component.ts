@@ -128,6 +128,7 @@ export class AppComponent implements OnInit {
   searchList() {
     if (!this.searchView) {
       this.searchView = true;
+      this.keywords = '';
     } else {
       this.router.navigate(['search', this.keywords, 1])
     }
