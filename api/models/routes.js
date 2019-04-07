@@ -127,8 +127,20 @@ const routes = (server) => {
 
 	server.get('/search/:keywords/:page', async (req, res, next) => {
 		const { keywords, page } = req.params
+		var character = keywords;
+    var ascii = "";
+    for (var i = 0; i < character.length; i++) {
+      var code = Number(character[i].charCodeAt(0));
+      if (code > 127) {
+        var charAscii = code.toString(16);
+        charAscii = new String("0000").substring(charAscii.length, 4) + charAscii;
+        ascii += "\\u" + charAscii
+      } else {
+        ascii += character[i];
+      }
+    }
 		try {
-			res.send(await db.threads().search(keywords, page))
+			res.send(await db.threads().search(ascii.replace(/\\/g, '%' + String.fromCharCode(92)), page))
 		} catch( error) {
 			res.send(error)
 		}

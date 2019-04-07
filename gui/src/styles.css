@@ -108,6 +108,7 @@ html, body {
 .toast-message {
   word-wrap: break-word;
   font-family: Open Sans Regular;
+  z-index: 99999999999999999999999999999999999999999999;
 }
 .toast-message a,
 .toast-message label {

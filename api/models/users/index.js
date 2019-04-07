@@ -52,7 +52,7 @@ const users = deps => {
 						resolve({ result: false, message: 'Username already exist.' })
 					} else {
 						const hashedPassword = await hash(password, SALT_ROUNDS)
-						connection.query('INSERT INTO users (username, password, email) VALUES (?, ?, ?)', [username, hashedPassword, email], (error, results) => {
+						connection.query('INSERT INTO users (username, password, email, time) VALUES (?, ?, ?, ?)', [username, hashedPassword, email, Date.now()], (error, results) => {
 							if (error) {
 								errorHandler(error, 'Failed to Register. Somethong went wrong.', reject)
 								resolve({ result: false, message: 'Failed to Register. Somethong went wrong.' })

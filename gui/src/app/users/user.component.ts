@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RestService } from '../service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UniService } from '../uni.services';
+import { ToastrService } from 'ngx-toastr';
 import { faPassport } from '@fortawesome/free-solid-svg-icons'
 
 @Component({
@@ -20,11 +21,12 @@ export class UserComponent implements OnInit {
   oldPassword:string;
   newPassword:string;
   email:string;
+  last: Date;
 
   session:boolean;
   localSession:string;
 
-  constructor(public rest:RestService, public uni: UniService) { }
+  constructor(private toastr: ToastrService, public rest:RestService, public uni: UniService) { }
 
   ngOnInit() {
     this.loadSession();
@@ -34,6 +36,7 @@ export class UserComponent implements OnInit {
     if (localStorage.getItem('traveldiaryv1')) {
       this.session = true;
       this.localSession = JSON.parse(localStorage.getItem('traveldiaryv1'));
+      this.last = this.timeConverter(this.localSession.last)
     } else {
       localStorage.removeItem('traveldiaryv1');
       this.session = false;
@@ -41,29 +44,51 @@ export class UserComponent implements OnInit {
   }
 
   timeConverter(UNIX_timestamp){
-    var a = new Date(UNIX_timestamp * 1000);
-    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    var year = a.getFullYear();
-    var month = months[a.getMonth()];
-    var date = a.getDate();
-    var hour = a.getHours();
-    var min = a.getMinutes();
-    var sec = a.getSeconds();
-    var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
-    return time;
+    
+    return new Date(UNIX_timestamp);
   }
 
   btnRegister() {
-    if (this.register===0) {
-      this.register = 1;
+    if (!this.session) {
+      if (this.register===0) {
+        this.register = 1;
+      } else {
+        this.register = 0;
+      }
     } else {
-      this.register = 0;
+      if (this.oldPassword!==this.newPassword) {
+        return this.rest.updatepassword({oldPassword: this.oldPassword, newPassword: this.newPassword}).subscribe(
+          result => {
+            if (result.result) {
+              this.toastr.success(result.message);
+              localStorage.removeItem('traveldiaryv1');
+              this.session = false;
+            } else {
+              this.toastr.error(result.message);
+              return false;
+            }
+
+            this.username = '';
+            this.oldPassword = '';
+            this.newPassword = '';
+            this.email = '';
+          }
+        );
+      } else {
+        this.toastr.error('Password not change!');
+      }
+
+      this.username = '';
+      this.oldPassword = '';
+      this.newPassword = '';
+      this.email = '';
     }
+    
   }
 
-  btnForgot() {
-    this.register = 2;
-  }
+  // btnForgot() {
+  //   this.register = 2;
+  // }
 
   btnSubmit() {
     if (!this.session) {
@@ -74,8 +99,10 @@ export class UserComponent implements OnInit {
               localStorage.setItem('traveldiaryv1', JSON.stringify(result));
               this.loadSession();
               console.log(result.message);
+              this.toastr.success(result.message);
             } else {
               console.log(result.message);
+              this.toastr.error(result.message);
               return false;
             }
 
@@ -86,11 +113,26 @@ export class UserComponent implements OnInit {
           }
         );
       } else if (this.register == 1) {
-        this.username = '';
-        this.oldPassword = '';
-        this.newPassword = '';
-        this.email = '';
-      } else {
+        if (this.oldPassword ===this.newPassword) {
+          return this.rest.register({username: this.username, password: this.newPassword, email: this.email}).subscribe(
+            result => {
+              if (result.result) {
+                this.toastr.success(result.message);
+              } else {
+                this.toastr.error(result.message);
+                return false;
+              }
+  
+              this.username = '';
+              this.oldPassword = '';
+              this.newPassword = '';
+              this.email = '';
+            }
+          );
+        } else {
+          this.toastr.error('Password not match!');
+        }
+
         this.username = '';
         this.oldPassword = '';
         this.newPassword = '';

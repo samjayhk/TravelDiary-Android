@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RestService } from '../service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser'
 import { UniService } from '../uni.services';
 import { faPassport, faCommentAlt } from '@fortawesome/free-solid-svg-icons'
 import { ToastrService } from 'ngx-toastr';
@@ -23,7 +24,7 @@ export class SearchComponent implements OnInit {
   tags: any;
   threadList: any;
 
-  constructor(private toastr: ToastrService, public rest:RestService, public uni: UniService, public actRoute: ActivatedRoute, public router: Router) {
+  constructor(private sanitized: DomSanitizer, private toastr: ToastrService, public rest:RestService, public uni: UniService, public actRoute: ActivatedRoute, public router: Router) {
   }
 
   ngOnInit() {
@@ -55,7 +56,8 @@ export class SearchComponent implements OnInit {
   }
 
   public getThreadList() {
-    return this.rest.search(this.keywords, this.page).subscribe(
+    
+    return this.rest.search(this.urlEncode(this.keywords), this.page).subscribe(
       threadList => {
         if (threadList.result) {
           this.threadList = threadList;
@@ -65,6 +67,12 @@ export class SearchComponent implements OnInit {
         }
       }
     );
+  }
+
+  public urlEncode(str) {
+    var unencoded = str;
+    str = encodeURIComponent(unencoded).replace(/'/g,"%27").replace(/"/g,"%22");
+    return str
   }
 
   public dateDiff(time) {
@@ -86,17 +94,37 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  public ascii2native(str) {
-      var character = str.split("\\u");
-      var native = character[0];
-      for (var i = 1; i < character.length; i++) {
-          var code = character[i];
-          native += String.fromCharCode(parseInt("0x" + code.substring(0, 4)));
-          if (code.length > 4) {
-              native += code.substring(4, code.length);
-          }
-      };
+  public native2ascii(str) {
+    var character = str;
+    var ascii = "";
+    for (var i = 0; i < character.length; i++) {
+      var code = Number(character[i].charCodeAt(0));
+      if (code > 127) {
+        var charAscii = code.toString(16);
+        charAscii = new String("0000").substring(charAscii.length, 4) + charAscii;
+        ascii += "\\u" + charAscii
+      } else {
+        ascii += character[i];
+      }
+    }
+    return ascii;
+  }
+
+  public ascii2native(str, ac) {
+    var character = str.split("\\u");
+    var native = character[0];
+    for (var i = 1; i < character.length; i++) {
+        var code = character[i];
+        native += String.fromCharCode(parseInt("0x" + code.substring(0, 4)));
+        if (code.length > 4) {
+            native += code.substring(4, code.length);
+        }
+    };
+    if (ac) {
+      return this.sanitized.bypassSecurityTrustHtml(native);
+    } else {
       return native;
+    }
   }
   
   arr(number) {

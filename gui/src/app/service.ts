@@ -30,6 +30,19 @@ export class RestService {
     return httpOptions;
   }
 
+  private loadSessionWithJSON() {
+    if (localStorage.getItem('traveldiaryv1')) {
+      const httpJSONTOKEN = {
+        headers: new HttpHeaders({
+          'Content-Type':  'application/json',
+          'x-token': JSON.parse(localStorage.getItem('traveldiaryv1')).token
+        })
+      };
+      return httpJSONTOKEN;
+    }
+    return httpOptions;
+  }
+
   private extractData(res: Response) {
     let body = res;
     return body || { };
@@ -44,7 +57,7 @@ export class RestService {
   }
 
   updatepassword(users): Observable<any> {
-    return this.http.put(endpoint + 'users/updatepassword', JSON.stringify(users), httpOptions);
+    return this.http.put(endpoint + 'users/updatepassword', JSON.stringify(users), this.loadSessionWithJSON());
   }
 
   getTags(): Observable<any> {
@@ -125,6 +138,7 @@ export class RestService {
   }
 
   search(keywords, page): Observable<any> {
+    console.log(keywords)
     return this.http.get(endpoint + 'search/' + keywords + '/' + page);
   }
 

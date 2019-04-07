@@ -11,19 +11,24 @@
           <input type="password" name="oldPassword" placeholder="Password" autocomplete="off" [(ngModel)]="oldPassword" *ngIf="register!==2">
           <input type="password" name="newPassword" placeholder="Confirm Password" autocomplete="off" [(ngModel)]="newPassword" *ngIf="register===1" >
           <input type="email" name="email" placeholder="Email" autocomplete="off" [(ngModel)]="email" *ngIf="register!==0" >
-          <div class="forgot-password" (click)="btnForgot()" *ngIf="register!==2">Forgot Password?</div>
         </div>
-        <div class="input" *ngIf="session">
-          <div>{{localSession.username}}</div>
+        <div class="input-fill" *ngIf="session">
+          <!-- <div>{{localSession.username}}</div>
           <div>{{localSession.reg | date}} (Reg)</div>
           <div>{{localSession.last | date}} (Last)</div>
-          <div>{{localSession.email}}</div>
+          <div>{{localSession.email}}</div> -->
+          <input type="text" [(ngModel)]=localSession.username readonly>
+          <input type="text" [(ngModel)]="last" readonly>
+          <input type="text" [(ngModel)]="localSession.email" readonly>
+          <input type="password" [(ngModel)]="oldPassword" placeholder="old password">
+          <input type="password" [(ngModel)]="newPassword" placeholder="new password">
         </div>
       </div>
       <div class="user-button">
         <div class="btn-register" (click)="btnRegister()">
           <div *ngIf="register!==0 && !session">Login</div>
           <div *ngIf="register===0 && !session">Register</div>
+          <div *ngIf="session">Change Password</div>
         </div>
         <div class="btn-login" (click)="btnSubmit()">
           <div *ngIf="!session">Submit</div>

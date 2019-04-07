@@ -117,6 +117,7 @@ export class AppComponent implements OnInit {
   backFun() {
     if (this.searchView) {
       this.searchView = false;
+      this.router.navigate(['thread/1'])
     }
 
     if (this.writeView) {
