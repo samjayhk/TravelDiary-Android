@@ -19,6 +19,7 @@ import { WriteComponent } from './write/write.component';
 import { CommentComponent } from './comment/comment.component';
 import { UpdateThreadComponent } from './update-thread/updatethread.component';
 import { UpdateCommentComponent } from './update-comment/updatecomment.component';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { UpdateCommentComponent } from './update-comment/updatecomment.component
     WriteComponent,
     CommentComponent,
     UpdateThreadComponent,
-    UpdateCommentComponent
+    UpdateCommentComponent,
+    SearchComponent
   ],
   imports: [
     FormsModule,

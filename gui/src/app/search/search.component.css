@@ -6,44 +6,8 @@
     display: flex;
 }
 
-.content-list > .tags-bar {
-    width: 20%;
-    height: 100%;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    border-right: 1px solid rgb(59, 58, 57);
-}
-
-.content-list > .tags-bar > .box {
-    width: 100%;
-}
-
-.content-list > .tags-bar > .box > .container {
-    max-height: 50px;
-    height: 50px;
-    width: 100%;
-    display: flex;
-}
-
-.content-list > .tags-bar > .box > .container:hover {
-    background-color: rgba(57, 57, 57, 0.4);
-    cursor: pointer;
-    border: .1px solid rgb(255, 255, 255);
-    width: 98%;
-    height: 48px;
-}
-
-.content-list > .tags-bar > .box > .container > .tags  {
-    color: rgb(204, 198, 192);
-    font-family: Open Sans Regular;
-    font-size: 1em;
-    margin: auto;
-    overflow: hidden;
-    text-align: center;
-}
-
 .content-list > .thread-list {
-    width: 80%;
+    width: 100%;
     height: 100%;
     overflow-y: scroll;
     overflow-x: hidden;

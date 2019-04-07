@@ -1,21 +1,7 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div class="content-list">
-  <div class="tags-bar" id="style-6">
-    <div *ngFor="let t of tags.tags; let i = index;" class="box" >
-      <div class="container" *ngIf="i===0;" style="margin-top: 50px;">
-          <div class="tags" style="color: gold;">
-            Popular
-          </div>
-      </div>
-      <div class="container">
-        <div class="tags">
-          {{t.name}}
-        </div>
-      </div>
-    </div>
-  </div>
   <div class="thread-list" id="style-6">
-    <div *ngFor="let t of threadList.thread; let i = index;" class="box">
+    <div *ngFor="let t of threadList.search; let i = index;" class="box">
       <div class="container" *ngIf="i===0;" style="margin-top: 50px;" (click)="viewThread(t.pid, 1)">
         <div class="list">
           <div class="top">

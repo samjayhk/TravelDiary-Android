@@ -3,15 +3,17 @@ import { RestService } from '../service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UniService } from '../uni.services';
 import { faPassport, faCommentAlt } from '@fortawesome/free-solid-svg-icons'
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.css']
+  selector: 'search',
+  templateUrl: './search.component.html',
+  styleUrls: ['./search.component.css']
 })
 
-export class ListComponent implements OnInit {
+export class SearchComponent implements OnInit {
 
+  keywords = this.actRoute.snapshot.params['keywords'];
   page = this.actRoute.snapshot.params['page'];
   
   faComment = faCommentAlt;
@@ -21,12 +23,11 @@ export class ListComponent implements OnInit {
   tags: any;
   threadList: any;
 
-  constructor(public rest:RestService, public uni: UniService, public actRoute: ActivatedRoute, public router: Router) { }
+  constructor(private toastr: ToastrService, public rest:RestService, public uni: UniService, public actRoute: ActivatedRoute, public router: Router) {
+  }
 
   ngOnInit() {
-    //this.uni.thread = true;
     this.loadSession();
-    this.getTags();
     this.getThreadList();
   }
 
@@ -53,18 +54,15 @@ export class ListComponent implements OnInit {
     return time;
   }
 
-  public getTags() {
-    return this.rest.getTags().subscribe(
-      tags => {
-        this.tags = tags;
-      }
-    );
-  }
-
   public getThreadList() {
-    return this.rest.getThreadList(1).subscribe(
+    return this.rest.search(this.keywords, this.page).subscribe(
       threadList => {
-        this.threadList = threadList;
+        if (threadList.result) {
+          this.threadList = threadList;
+        } else {
+          this.router.navigate(['thread/1'])
+          this.toastr.error(threadList.message);
+        }
       }
     );
   }

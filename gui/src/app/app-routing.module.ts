@@ -7,6 +7,7 @@ import { WriteComponent } from './write/write.component';
 import { CommentComponent } from './comment/comment.component';
 import { UpdateThreadComponent } from './update-thread/updatethread.component';
 import { UpdateCommentComponent } from './update-comment/updatecomment.component';
+import { SearchComponent } from './search/search.component';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: 'thread/1' },
@@ -15,7 +16,8 @@ const routes: Routes = [
   {path: 'threads/write', component: WriteComponent},
   {path: 'threads/:pid/write', component: CommentComponent},
   {path: 'threads/:pid/update', component: UpdateThreadComponent},
-  {path: 'threads/comment/:cid/update', component: UpdateCommentComponent}
+  {path: 'threads/comment/:cid/update', component: UpdateCommentComponent},
+  {path: 'search/:keywords/:page', component: SearchComponent}
 ];
 
 @NgModule({

@@ -126,8 +126,11 @@ export class AppComponent implements OnInit {
   }
 
   searchList() {
-    this.searchView = true;
-
+    if (!this.searchView) {
+      this.searchView = true;
+    } else {
+      this.router.navigate(['search', this.keywords, 1])
+    }
   }
 
   refreshList() {
