@@ -310,6 +310,30 @@
     cursor: pointer;
 }
 
+.float-container {
+    height: 50px;
+    width: 50px;
+    right: 8%;
+    bottom: 5%;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    background: rgba(255, 215, 0, 0.6);
+    border-radius: 50%;
+    color: #fff;
+    cursor: pointer;
+    outline: 0;
+    padding: 0;
+    text-align: center;
+    position: fixed;
+    display: flex;
+}
 
+.float-container > .d-inline-block > #dropdownBasic1 {
+    font-family: Open Sans Regular;
+    font-size: 1.5em;
+    color: white;
+    text-align: center;
+    margin: auto;
+}
 
 

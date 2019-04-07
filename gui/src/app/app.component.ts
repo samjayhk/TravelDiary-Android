@@ -3,6 +3,7 @@ import { RestService } from './service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UniService } from './uni.services';
 import { ToastrService } from 'ngx-toastr';
+import {Location} from '@angular/common';
 
 import { faSearch, faEdit, faTrashAlt, faArrowLeft, faRedoAlt, faPlus, faBars, faPassport, faCommentAlt, faCommentMedical } from '@fortawesome/free-solid-svg-icons'
 
@@ -37,16 +38,22 @@ export class AppComponent implements OnInit {
   userView;
   writeView;
 
+  currentViewPage = 1;
+  currnetViewTags = 0;
+  currentViewPageRange = 1;
   keywords;
 
   _subscriptionPid;
   _subscriptionPage;
+  _subscriptionCurrentPageRange;
   _subscriptionTitle;
   _subscriptionThread;
   _subscriptionUser;
   _subscriptionWrite;
+  _subscriptionTags;
+  _subscriptionViewPage;
 
-  constructor(private toastr: ToastrService, public rest:RestService, public uni: UniService, public actRoute: ActivatedRoute, public router: Router) { 
+  constructor(private location: Location, private toastr: ToastrService, public rest:RestService, public uni: UniService, public actRoute: ActivatedRoute, public router: Router) { 
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.title = uni.title;
     if (uni.titleChange.observers.length === 0) {
@@ -70,7 +77,7 @@ export class AppComponent implements OnInit {
       });
     }
     if (uni.pageChange.observers.length === 0) {
-      this._subscriptionTitle = uni.pageChange.subscribe((value) => {
+      this._subscriptionPage = uni.pageChange.subscribe((value) => {
         this.currentPage = value;
       });
     }
@@ -79,15 +86,55 @@ export class AppComponent implements OnInit {
         this.writeView = value;
       });
     }
+    if (uni.pageRangeChange.observers.length === 0) {
+      this._subscriptionCurrentPageRange = uni.pageRangeChange.subscribe((value) => {
+        this.currentViewPageRange = value;
+      });
+    }
+    if (uni.pageViewChange.observers.length === 0) {
+      this._subscriptionViewPage = uni.pageViewChange.subscribe((value) => {
+        this.currentViewPage = value;
+      });
+    }
+    if (uni.tagsChange.observers.length === 0) {
+      this._subscriptionTags = uni.tagsChange.subscribe((value) => {
+        this.currnetViewTags = value;
+      });
+    }
   }
 
   ngOnDestroy() {
+    this._subscriptionPid.unsubscribe();
+    this._subscriptionPage.unsubscribe();
+    this._subscriptionCurrentPageRange.unsubscribe();
     this._subscriptionTitle.unsubscribe();
     this._subscriptionThread.unsubscribe();
     this._subscriptionUser.unsubscribe();
+    this._subscriptionWrite.unsubscribe();
+    this._subscriptionTags.unsubscribe();
+    this._subscriptionViewPage.unsubscribe();
   }
 
   ngOnInit() {
+  }
+
+  arr(number) {
+    var i:number; 
+    var arrys = [];
+    for(i = 0; i<number; i++) {
+      arrys.push(i)
+    }
+    return arrys;
+  }
+
+  changePage(p) {
+    this.uni.setCurrentViewPage2(p);
+    this.currentViewPage = p;
+    if (this.currnetViewTags == 0) {
+      this.location.go('thread/' + p)
+    } else {
+      this.location.go('thread/tag/' + this.currnetViewTags + '/' + p)
+    }
   }
 
   loadSession() {
@@ -136,8 +183,7 @@ export class AppComponent implements OnInit {
   }
 
   refreshList() {
-    this.router.navigate(['thread', 1])
-    this.ngOnInit()
+    this.changePage(1)
   }
 
   refreshThread() {

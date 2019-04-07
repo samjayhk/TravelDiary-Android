@@ -73,6 +73,16 @@
           </div>
       </div>
     </div>
+    <div class="float-container">
+      <div ngbDropdown class="d-inline-block">
+        <div id="dropdownBasic1" ngbDropdownToggle>{{currentViewPage}}</div>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <ng-container *ngFor="let p of arr(currentViewPageRange);">
+            <button (click)="changePage(p+1)" ngbDropdownItem>{{p+1}}</button>
+          </ng-container>
+        </div>
+      </div>
+    </div>
     <router-outlet></router-outlet>
   </div>
 </div>

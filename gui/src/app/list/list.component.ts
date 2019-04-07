@@ -22,12 +22,26 @@ export class ListComponent implements OnInit {
   tags: any;
   threadList: any;
 
+  currentTags = 0;
+  _subscriptionViewPage;
+
   constructor(private location: Location, public rest:RestService, public uni: UniService, public actRoute: ActivatedRoute, public router: Router) { 
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    if (uni.pageViewChange2.observers.length === 0) {
+      this._subscriptionViewPage = uni.pageViewChange2.subscribe((value) => {
+        this.page = value;
+
+        if (this.currentTags === 0) {
+          this.getThreadList();
+        } else {
+          this.getThreadListWithTags(this.currentTags, value)
+        }
+      });
+    }
   }
 
   ngOnInit() {
-    //this.uni.thread = true;
+    this.uni.setCurrentViewPage(this.page)
     this.loadSession();
     this.getTags();
     this.getThreadList();
@@ -69,33 +83,41 @@ export class ListComponent implements OnInit {
       threadList => {
         if (threadList.result) {
           this.threadList = threadList;
+          this.uni.setCurrentPageRangeChange(this.threadList.sum);
         } else {
           this.threadList = {}
+          this.uni.setCurrentPageRangeChange(1);
         }
       }
     );
   }
 
   public getThreadListWithTags(tags, page) {
-    return this.rest.getThreadList(this.page, tags).subscribe(
+    return this.rest.getThreadList(page, tags).subscribe(
       threadList => {
         if (threadList.result) {
           this.threadList = threadList;
+          this.uni.setCurrentPageRangeChange(this.threadList.sum);
         } else {
           this.threadList = {}
+          this.uni.setCurrentPageRangeChange(1);
         }
       }
     );
   }
 
   public chageDefaultTags() {
+    this.currentTags = 0;
     this.location.go( 'thread/1' );
     this.getThreadListWithTags(0, 1);
+    this.uni.setCurrentTagsChange(0);
   }
 
   public chageTags(tid, page) {
+    this.currentTags = tid;
     this.location.go('thread/tag/' + tid + '/' + page)
     this.getThreadListWithTags(tid, page);
+    this.uni.setCurrentTagsChange(tid);
   }
 
   public dateDiff(time) {

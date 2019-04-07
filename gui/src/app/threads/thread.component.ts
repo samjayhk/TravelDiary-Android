@@ -32,8 +32,8 @@ export class ThreadComponent implements OnInit, PipeTransform {
   }
 
   ngOnDestroy() {
-    this.uni.setCurrentPid('1');
-    this.uni.setCurrentPage('1');
+    this.uni.setCurrentPid(1);
+    this.uni.setCurrentPage(1);
   }
 
   ngOnInit() {
