@@ -153,6 +153,7 @@ export class WriteComponent implements OnInit {
               if (threads.result) {
                 this.router.navigate(['thread/1'])
                 this.toastr.success(threads.message);
+                this.uni.setWriteViewChange(false);
               } else {
                 this.toastr.error(threads.message);
                 console.log(threads)

@@ -138,7 +138,6 @@ export class RestService {
   }
 
   search(keywords, page): Observable<any> {
-    console.log(keywords)
     return this.http.get(endpoint + 'search/' + keywords + '/' + page);
   }
 
