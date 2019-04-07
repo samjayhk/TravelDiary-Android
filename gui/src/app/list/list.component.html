@@ -2,12 +2,12 @@
 <div class="content-list">
   <div class="tags-bar" id="style-6">
     <div *ngFor="let t of tags.tags; let i = index;" class="box" >
-      <div class="container" *ngIf="i===0;" style="margin-top: 50px;">
+      <div class="container" *ngIf="i===0;" style="margin-top: 50px;" (click)="chageDefaultTags()">
           <div class="tags" style="color: gold;">
-            Popular
+            {{t.name}}
           </div>
       </div>
-      <div class="container">
+      <div class="container" *ngIf="i!==0;" (click)="chageTags(t.tid, 1)">
         <div class="tags">
           {{t.name}}
         </div>

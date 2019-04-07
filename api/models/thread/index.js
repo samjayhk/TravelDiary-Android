@@ -7,18 +7,30 @@ let hash = text => bcrypt.hash(text, SALT_ROUNDS)
 
 const thread = deps => {
     return {
-        list: (page) => {
+        list: (page, tid) => {
             return new Promise((resolve, reject) => {
                 const { connection, errorHandler } = deps
-                connection.query('SELECT p.pid, p.uid, u.username, t.name AS tag, p.subject, p.ptime, p.uptime, p.rate, COUNT(c.pid) AS count, CEIL((COUNT(c.pid))/8) AS pages, MAX(c.ctime) AS lcom, (? - p.ptime) AS plast, GREATEST(IFNULL(MAX(c.ctime), 0), p.ptime) AS ntime FROM comment c RIGHT JOIN post p ON p.pid = c.pid INNER JOIN tags t ON p.tid = t.tid INNER JOIN users u ON u.uid = p.uid GROUP BY p.pid ORDER BY ntime DESC LIMIT ?, ?', [Date.now(), (parseInt(page)*8)-8, 8], (error, results) => {
-                    if (results.length >= 1) {
-                        connection.query('SELECT COUNT(pid) AS sum FROM post', (error, sumResults) => {
-                            resolve({result: true, page: parseInt(page), sum: Math.ceil(parseInt(sumResults[0].sum)/8), thread: results})
-                        })
-                    } else {
-                        resolve({result: false, message: 'No others thread found.'})
-                    }
-                })
+                if (tid == 0) {
+                    connection.query('SELECT p.pid, p.uid, u.username, t.name AS tag, p.subject, p.ptime, p.uptime, p.rate, COUNT(c.pid) AS count, CEIL((COUNT(c.pid))/8) AS pages, MAX(c.ctime) AS lcom, (? - p.ptime) AS plast, GREATEST(IFNULL(MAX(c.ctime), 0), p.ptime) AS ntime FROM comment c RIGHT JOIN post p ON p.pid = c.pid INNER JOIN tags t ON p.tid = t.tid INNER JOIN users u ON u.uid = p.uid GROUP BY p.pid ORDER BY ntime DESC LIMIT ?, ?', [Date.now(), (parseInt(page)*8)-8, 8], (error, results) => {
+                        if (results.length >= 1) {
+                            connection.query('SELECT COUNT(pid) AS sum FROM post', (error, sumResults) => {
+                                resolve({result: true, page: parseInt(page), sum: Math.ceil(parseInt(sumResults[0].sum)/8), thread: results})
+                            })
+                        } else {
+                            resolve({result: false, message: 'No others thread found.'})
+                        }
+                    })
+                } else {
+                    connection.query('SELECT p.pid, p.uid, u.username, t.name AS tag, p.subject, p.ptime, p.uptime, p.rate, COUNT(c.pid) AS count, CEIL((COUNT(c.pid))/8) AS pages, MAX(c.ctime) AS lcom, (? - p.ptime) AS plast, GREATEST(IFNULL(MAX(c.ctime), 0), p.ptime) AS ntime FROM comment c RIGHT JOIN post p ON p.pid = c.pid INNER JOIN tags t ON p.tid = t.tid INNER JOIN users u ON u.uid = p.uid WHERE p.tid = ? GROUP BY p.pid ORDER BY ntime DESC LIMIT ?, ?', [Date.now(), tid, (parseInt(page)*8)-8, 8], (error, results) => {
+                        if (results.length >= 1) {
+                            connection.query('SELECT COUNT(pid) AS sum FROM post', (error, sumResults) => {
+                                resolve({result: true, page: parseInt(page), sum: Math.ceil(parseInt(sumResults[0].sum)/8), thread: results})
+                            })
+                        } else {
+                            resolve({result: false, message: 'No others thread found.'})
+                        }
+                    })
+                }
             })
         },
         content: (pid, page) => {
@@ -176,7 +188,7 @@ const thread = deps => {
         search: (keywords, page) => {
             return new Promise((resolve, reject) => {
                 const { connection, errorHandler } = deps
-                connection.query('SELECT pid, p.uid, u.username, subject, ptime FROM post p, users u WHERE p.uid = u.uid AND content LIKE ? OR subject LIKE ? GROUP BY pid ORDER BY ptime DESC LIMIT ?, ?', [`%${keywords}%`, `%${keywords}%`, (parseInt(page)*8)-8, 8], (error, results) => {
+                connection.query('SELECT p.pid, p.uid, u.username, t.name AS tag, p.subject, p.ptime, p.uptime, p.rate, COUNT(c.pid) AS count, CEIL((COUNT(c.pid))/8) AS pages, MAX(c.ctime) AS lcom, GREATEST(IFNULL(MAX(c.ctime), 0), p.ptime) AS ntime FROM comment c RIGHT JOIN post p ON p.pid = c.pid INNER JOIN tags t ON p.tid = t.tid INNER JOIN users u ON u.uid = p.uid AND p.content LIKE ? OR p.subject LIKE ? GROUP BY p.pid ORDER BY ntime DESC LIMIT ?, ?', [`%${keywords}%`, `%${keywords}%`, (parseInt(page)*8)-8, 8], (error, results) => {
                     if (error) {
                         errorHandler(error, 'Something went wrong.', reject)
                         resolve({result: false, message: 'Something went wrong.'})

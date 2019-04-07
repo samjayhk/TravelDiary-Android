@@ -28,7 +28,7 @@ export class ThreadComponent implements OnInit, PipeTransform {
   faTrashAlt = faTrashAlt;
 
   constructor(private toastr: ToastrService, private sanitized: DomSanitizer, public rest:RestService, public uni: UniService, public actRoute: ActivatedRoute, public router: Router) {
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    
   }
 
   ngOnDestroy() {

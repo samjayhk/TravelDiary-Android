@@ -51,9 +51,9 @@ export class RestService {
       return this.http.get(endpoint + 'thread/tags');
   }
 
-  getThreadList(page): Observable<any> {
+  getThreadList(page, tid): Observable<any> {
     if (page != undefined) {
-      return this.http.get(endpoint + 'thread/' + page);
+      return this.http.get(endpoint + 'thread/tag/' + tid + '/' + page);
     }
   }
 

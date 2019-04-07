@@ -12,6 +12,7 @@ import { SearchComponent } from './search/search.component';
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: 'thread/1' },
   {path: 'thread/:page', component: ListComponent},
+  {path: 'thread/tag/:tid/:page', component: ListComponent},
   {path: 'thread/:pid/:page', component: ThreadComponent},
   {path: 'threads/write', component: WriteComponent},
   {path: 'threads/:pid/write', component: CommentComponent},

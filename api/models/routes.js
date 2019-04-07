@@ -86,15 +86,25 @@ const routes = (server) => {
 		next()
     })
     
-    server.get('/thread/:page', async (req, res, next) => {
-			const { page } = req.params
-			try {
-				res.send(await db.threads().list(page))
-			} catch( error) {
-				res.send(error)
-			}
-			next()
-		})
+	server.get('/thread/:page', async (req, res, next) => {
+		const { page } = req.params
+		try {
+			res.send(await db.threads().list(page, 0))
+		} catch( error) {
+			res.send(error)
+		}
+		next()
+	})
+
+	server.get('/thread/tag/:tid/:page', async (req, res, next) => {
+		const { page, tid } = req.params
+		try {
+			res.send(await db.threads().list(page, tid))
+		} catch( error) {
+			res.send(error)
+		}
+		next()
+	})
 
 	server.get('/thread/:pid/:page', async (req, res, next) => {
 		const { pid, page } = req.params

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Location} from '@angular/common';
 import { RestService } from '../service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UniService } from '../uni.services';
@@ -21,7 +22,9 @@ export class ListComponent implements OnInit {
   tags: any;
   threadList: any;
 
-  constructor(public rest:RestService, public uni: UniService, public actRoute: ActivatedRoute, public router: Router) { }
+  constructor(private location: Location, public rest:RestService, public uni: UniService, public actRoute: ActivatedRoute, public router: Router) { 
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+  }
 
   ngOnInit() {
     //this.uni.thread = true;
@@ -62,11 +65,37 @@ export class ListComponent implements OnInit {
   }
 
   public getThreadList() {
-    return this.rest.getThreadList(1).subscribe(
+    return this.rest.getThreadList(this.page, 0).subscribe(
       threadList => {
-        this.threadList = threadList;
+        if (threadList.result) {
+          this.threadList = threadList;
+        } else {
+          this.threadList = {}
+        }
       }
     );
+  }
+
+  public getThreadListWithTags(tags, page) {
+    return this.rest.getThreadList(this.page, tags).subscribe(
+      threadList => {
+        if (threadList.result) {
+          this.threadList = threadList;
+        } else {
+          this.threadList = {}
+        }
+      }
+    );
+  }
+
+  public chageDefaultTags() {
+    this.location.go( 'thread/1' );
+    this.getThreadListWithTags(0, 1);
+  }
+
+  public chageTags(tid, page) {
+    this.location.go('thread/tag/' + tid + '/' + page)
+    this.getThreadListWithTags(tid, page);
   }
 
   public dateDiff(time) {
