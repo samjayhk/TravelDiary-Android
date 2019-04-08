@@ -73,7 +73,7 @@
           </div>
       </div>
     </div>
-    <div class="float-container">
+    <div class="float-container" *ngIf="!threadView">
       <div ngbDropdown class="d-inline-block">
         <div id="dropdownBasic1" ngbDropdownToggle>{{currentViewPage}}</div>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">

@@ -90,10 +90,26 @@
     padding-right: 10px;
 }
 
+.content-list > .thread-list > .box > .container > .list > .top > .username > .icon {
+    display: flex;
+    padding-right: 5px;
+    color: gold;
+    font-size: 0.8em;
+    margin: auto 0;
+}
+
 .content-list > .thread-list > .box > .container > .list > .top > .time {
     display: flex;
     padding-right: 10px;
     color: rgb(132,132,130);
+}
+
+.content-list > .thread-list > .box > .container > .list > .top > .time > .icon {
+    display: flex;
+    padding-right: 5px;
+    color: rgb(132,132,130);
+    font-size: 0.8em;
+    margin: auto 0;
 }
 
 .content-list > .thread-list > .box > .container > .list > .top > .count {
@@ -103,6 +119,20 @@
 }
 
 .content-list > .thread-list > .box > .container > .list > .top > .count > .icon {
+    display: flex;
+    padding-right: 5px;
+    color: rgb(132,132,130);
+    font-size: 0.8em;
+    margin: auto 0;
+}
+
+.content-list > .thread-list > .box > .container > .list > .top > .tags {
+    display: flex;
+    padding-right: 10px;
+    color: rgb(132,132,130);
+}
+
+.content-list > .thread-list > .box > .container > .list > .top > .tags > .icon {
     display: flex;
     padding-right: 5px;
     color: rgb(132,132,130);

@@ -10,6 +10,9 @@ export class UniService {
     public threadView = false;
     public writeView = false;
 
+    public threadViewRefresh = false;
+    public listViewRefresh = false;
+
     public currentViewPage;
     public currentViewPage2;
     public currentPageRange;
@@ -23,6 +26,8 @@ export class UniService {
     pidChange: Subject<number> = new Subject<number>();
     pageChange: Subject<number> = new Subject<number>();
     writeViewChange: Subject<boolean> = new Subject<boolean>();
+    threadViewRefreshChange: Subject<boolean> = new Subject<boolean>();
+    listViewRefreshChange: Subject<boolean> = new Subject<boolean>();
     pageRangeChange: Subject<number> = new Subject<number>();
     pageViewChange: Subject<number> = new Subject<number>();
     pageViewChange2: Subject<number> = new Subject<number>();
@@ -34,6 +39,8 @@ export class UniService {
         this.currentPid = '1';
         this.currentPage = '1';
         this.writeView = false;
+        this.threadViewRefresh = false;
+        this.listViewRefresh = false;
         this.currentPageRange = 1;
         this.currentViewPage = 1;
         this.currentViewPage2 = 1;
@@ -62,6 +69,14 @@ export class UniService {
 
     setThreadViewChange(open) {
         this.threadViewChange.next(open);
+    }
+
+    setThreadViewRefreshChange(open) {
+        this.threadViewRefreshChange.next(open);
+    }
+
+    setListViewRefreshChange(open) {
+        this.listViewRefreshChange.next(open);
     }
 
     setCurrentPid(pid) {

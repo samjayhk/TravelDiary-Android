@@ -22,8 +22,9 @@
         <div class="top">
           <div class="left">
             <div class="id">#1</div>
-            <div class="username">{{thread.thread[0].username}}</div>
-            <div class="days">•{{dateDiff(thread.thread[0].ptime)}}</div>
+            <div class="username"><fa-icon [icon]="faUser" class="icon"></fa-icon>{{thread.thread[0].username}}</div>
+            <div class="days"><fa-icon [icon]="faCalendarDay" class="icon"></fa-icon>{{dateDiff(thread.thread[0].ptime)}}</div>
+            <div class="tags"><fa-icon [icon]="faTag" class="icon"></fa-icon>{{thread.thread[0].tags}}</div>
           </div>
           <div class="right">
             <div class="container" (click)="editThread()">
@@ -49,8 +50,8 @@
             <div class="left">
               <div class="id" *ngIf="thread.page===1">#{{i+(thread.page*(thread.page+3-2))}}</div>
               <div class="id" *ngIf="thread.page!==1">#{{i+(thread.page*(thread.page+3))}}</div>
-              <div class="username">{{p.username}}</div>
-              <div class="days">•{{dateDiff(p.ctime)}}</div>
+              <div class="username"><fa-icon [icon]="faUser" class="icon"></fa-icon>{{p.username}}</div>
+              <div class="days"><fa-icon [icon]="faCalendarDay" class="icon"></fa-icon>{{dateDiff(p.ctime)}}</div>
             </div>
             <div class="right">
               <div class="container" (click)="editComment(i, p.cid)">

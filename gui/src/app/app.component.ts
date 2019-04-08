@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { RestService } from './service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UniService } from './uni.services';
@@ -53,7 +53,7 @@ export class AppComponent implements OnInit {
   _subscriptionTags;
   _subscriptionViewPage;
 
-  constructor(private location: Location, private toastr: ToastrService, public rest:RestService, public uni: UniService, public actRoute: ActivatedRoute, public router: Router) { 
+  constructor(private changeDetectorRef: ChangeDetectorRef, private location: Location, private toastr: ToastrService, public rest:RestService, public uni: UniService, public actRoute: ActivatedRoute, public router: Router) { 
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.title = uni.title;
     if (uni.titleChange.observers.length === 0) {
@@ -158,7 +158,14 @@ export class AppComponent implements OnInit {
   back() {
     this.uni.setThreadTitle('Travel Diary');
     this.uni.setThreadViewChange(false);
-    this.router.navigate(['thread/1'])
+    //this.router.navigate(['thread/' + this.currentViewPage])
+    //this.changePage(this.currentViewPage)
+
+    if (this.currnetViewTags == 0) {
+      this.router.navigate(['thread', this.currentViewPage])
+    } else {
+      this.router.navigate(['thread', 'tag', this.currnetViewTags,  this.currentViewPage])
+    }
   }
 
   backFun() {
@@ -183,12 +190,11 @@ export class AppComponent implements OnInit {
   }
 
   refreshList() {
-    this.changePage(1)
+    this.uni.setListViewRefreshChange(true)
   }
 
   refreshThread() {
-    this.router.navigate(['thread', this.currentPid, this.currentPage])
-    this.ngOnInit()
+    this.uni.setThreadViewRefreshChange(true);
   }
 
   writeThread() {

@@ -11,7 +11,7 @@ const thread = deps => {
             return new Promise((resolve, reject) => {
                 const { connection, errorHandler } = deps
                 if (tid == 0) {
-                    connection.query('SELECT p.pid, p.uid, u.username, t.name AS tag, p.subject, p.ptime, p.uptime, p.rate, COUNT(c.pid) AS count, CEIL((COUNT(c.pid))/8) AS pages, MAX(c.ctime) AS lcom, (? - p.ptime) AS plast, GREATEST(IFNULL(MAX(c.ctime), 0), p.ptime) AS ntime FROM comment c RIGHT JOIN post p ON p.pid = c.pid INNER JOIN tags t ON p.tid = t.tid INNER JOIN users u ON u.uid = p.uid GROUP BY p.pid ORDER BY ntime DESC LIMIT ?, ?', [Date.now(), (parseInt(page)*8)-8, 8], (error, results) => {
+                    connection.query('SELECT p.pid, p.uid, u.username, t.name AS tag, p.subject, p.ptime, p.uptime, p.rate, t.name AS tags, COUNT(c.pid) AS count, CEIL((COUNT(c.pid))/8) AS pages, MAX(c.ctime) AS lcom, (? - p.ptime) AS plast, GREATEST(IFNULL(MAX(c.ctime), 0), p.ptime) AS ntime FROM comment c RIGHT JOIN post p ON p.pid = c.pid INNER JOIN tags t ON p.tid = t.tid INNER JOIN users u ON u.uid = p.uid GROUP BY p.pid ORDER BY ntime DESC LIMIT ?, ?', [Date.now(), (parseInt(page)*10)-10, 10], (error, results) => {
                         if (results.length >= 1) {
                             connection.query('SELECT COUNT(pid) AS sum FROM post', (error, sumResults) => {
                                 resolve({result: true, page: parseInt(page), sum: Math.ceil(parseInt(sumResults[0].sum)/8), thread: results})
@@ -21,7 +21,7 @@ const thread = deps => {
                         }
                     })
                 } else {
-                    connection.query('SELECT p.pid, p.uid, u.username, t.name AS tag, p.subject, p.ptime, p.uptime, p.rate, COUNT(c.pid) AS count, CEIL((COUNT(c.pid))/8) AS pages, MAX(c.ctime) AS lcom, (? - p.ptime) AS plast, GREATEST(IFNULL(MAX(c.ctime), 0), p.ptime) AS ntime FROM comment c RIGHT JOIN post p ON p.pid = c.pid INNER JOIN tags t ON p.tid = t.tid INNER JOIN users u ON u.uid = p.uid WHERE p.tid = ? GROUP BY p.pid ORDER BY ntime DESC LIMIT ?, ?', [Date.now(), tid, (parseInt(page)*8)-8, 8], (error, results) => {
+                    connection.query('SELECT p.pid, p.uid, u.username, t.name AS tag, p.subject, p.ptime, p.uptime, p.rate, t.name AS tags, COUNT(c.pid) AS count, CEIL((COUNT(c.pid))/8) AS pages, MAX(c.ctime) AS lcom, (? - p.ptime) AS plast, GREATEST(IFNULL(MAX(c.ctime), 0), p.ptime) AS ntime FROM comment c RIGHT JOIN post p ON p.pid = c.pid INNER JOIN tags t ON p.tid = t.tid INNER JOIN users u ON u.uid = p.uid WHERE p.tid = ? GROUP BY p.pid ORDER BY ntime DESC LIMIT ?, ?', [Date.now(), tid, (parseInt(page)*8)-8, 8], (error, results) => {
                         if (results.length >= 1) {
                             connection.query('SELECT COUNT(pid) AS sum FROM post', (error, sumResults) => {
                                 resolve({result: true, page: parseInt(page), sum: Math.ceil(parseInt(sumResults[0].sum)/8), thread: results})

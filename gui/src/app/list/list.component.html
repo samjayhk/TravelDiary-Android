@@ -15,19 +15,25 @@
     </div>
   </div>
   <div class="thread-list" id="style-6">
-    <div *ngFor="let t of threadList.thread; let i = index;" class="box">
+    <div *ngFor="let t of threadList; let i = index;" class="box">
       <div class="container" *ngIf="i===0;" style="margin-top: 50px;" (click)="viewThread(t.pid, 1)">
         <div class="list">
           <div class="top">
               <div class="username">
+                <fa-icon [icon]="faUser" class="icon"></fa-icon>
                 {{t.username}}
               </div>
               <div class="time">
-                  {{dateDiff(t.ntime)}}
+                <fa-icon [icon]="faCalendarDay" class="icon"></fa-icon>
+                {{dateDiff(t.ntime)}}
               </div>
               <div class="count">
                   <fa-icon [icon]="faComment" class="icon"></fa-icon>
                   {{t.count}}
+              </div>
+              <div class="tags">
+                  <fa-icon [icon]="faTag" class="icon"></fa-icon>
+                  {{t.tags}}
               </div>
           </div>
           <div class="container">
@@ -59,14 +65,20 @@
         <div class="list">
           <div class="top">
               <div class="username">
+                <fa-icon [icon]="faUser" class="icon"></fa-icon>
                 {{t.username}}
               </div>
               <div class="time">
-                  {{dateDiff(t.ntime)}}
+                <fa-icon [icon]="faCalendarDay" class="icon"></fa-icon>
+                {{dateDiff(t.ntime)}}
               </div>
               <div class="count">
-                  <fa-icon [icon]="faComment" class="icon"></fa-icon>
-                  {{t.count}}
+                <fa-icon [icon]="faComment" class="icon"></fa-icon>
+                {{t.count}}
+              </div>
+              <div class="tags">
+                <fa-icon [icon]="faTag" class="icon"></fa-icon>
+                {{t.tags}}
               </div>
           </div>
           <div class="container">

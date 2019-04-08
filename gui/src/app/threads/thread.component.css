@@ -94,11 +94,40 @@
 .content > .thread > .container > .box > .top > .left > .username {
     color: rgb(132,132,130);
     margin: auto 10px auto 10px;
+    display: flex;
+}
+
+.content > .thread > .container > .box > .top > .left > .username > fa-icon {
+    color: rgb(132,132,130);
+    font-size: 0.8em;
+    margin: auto 0;
+    padding-right: 5px;
 }
 
 .content > .thread > .container > .box > .top > .left > .days {
     color: rgb(132,132,130);
-    marign: auto 10px auto 10px;
+    margin: auto 5px auto 5px;
+    display: flex;
+}
+
+.content > .thread > .container > .box > .top > .left > .days > fa-icon {
+    color: rgb(132,132,130);
+    font-size: 0.8em;
+    margin: auto 0;
+    padding-right: 5px;
+}
+
+.content > .thread > .container > .box > .top > .left > .tags {
+    display: flex;
+    padding-left: 5px;
+    color: rgb(132,132,130);
+}
+
+.content > .thread > .container > .box > .top > .left > .tags > fa-icon {
+    color: rgb(132,132,130);
+    font-size: 0.8em;
+    margin: auto 0;
+    padding-right: 5px;
 }
 
 .content > .thread > .container > .box > .top > .right > .container {
@@ -183,6 +212,19 @@
     margin: auto 0;
 }
 
+.content > .comment > .container > .box > .top > .left > .days {
+    color: rgb(132,132,130);
+    margin: auto 5px auto 5px;
+    display: flex;
+}
+
+.content > .comment > .container > .box > .top > .left > .days > fa-icon {
+    color: rgb(132,132,130);
+    font-size: 0.8em;
+    margin: auto 0;
+    padding-right: 5px;
+}
+
 .content > .comment > .container > .box > .top > .right {
     margin: auto 0 auto auto;
     display: flex;
@@ -195,11 +237,14 @@
 .content > .comment > .container > .box > .top > .left > .username {
     color: rgb(132,132,130);
     margin: auto 10px auto 10px;
+    display: flex;
 }
 
-.content > .comment > .container > .box > .top > .left > .days {
+.content > .comment > .container > .box > .top > .left > .username > fa-icon {
     color: rgb(132,132,130);
-    marign: auto 10px auto 10px;
+    font-size: 0.8em;
+    margin: auto 0;
+    padding-right: 5px;
 }
 
 .content > .comment > .container > .box > .top > .right > .container {

@@ -4,7 +4,7 @@ import { RestService } from '../service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UniService } from '../uni.services';
 import { ToastrService } from 'ngx-toastr';
-import { faEdit, faTrashAlt, faPassport, faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faCalendarDay, faEdit, faTrashAlt, faPassport, faChevronDown, faTag } from '@fortawesome/free-solid-svg-icons'
 
 @Component({
   selector: 'thread',
@@ -19,19 +19,32 @@ export class ThreadComponent implements OnInit, PipeTransform {
   pid = this.actRoute.snapshot.paramMap.get('pid');
   page = this.actRoute.snapshot.paramMap.get('page');
   
-
   thread:any;
   session:boolean;
   localSession;
+  faTag = faTag;
+  faUser = faUser;
+  faCalendarDay = faCalendarDay;
   faChevronDown = faChevronDown;
   faEdit = faEdit;
   faTrashAlt = faTrashAlt;
 
+  _subscriptionViewRefresh;
+
   constructor(private toastr: ToastrService, private sanitized: DomSanitizer, public rest:RestService, public uni: UniService, public actRoute: ActivatedRoute, public router: Router) {
-    
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    if (uni.threadViewRefreshChange.observers.length === 0) {
+      this._subscriptionViewRefresh = uni.threadViewRefreshChange.subscribe((value) => {
+        if (value) {
+          this.viewThread()
+          this.uni.setThreadViewRefreshChange(false)
+        }
+      });
+    }
   }
 
   ngOnDestroy() {
+    this._subscriptionViewRefresh.unsubscribe();
     this.uni.setCurrentPid(1);
     this.uni.setCurrentPage(1);
   }
@@ -93,7 +106,9 @@ export class ThreadComponent implements OnInit, PipeTransform {
   }
 
   changePage(p) {
-    this.router.navigate(['thread/' + this.pid + '/' + p])
+    //this.router.navigate(['thread/' + this.pid + '/' + p])
+    this.page = p;
+    this.viewThread();
   }
 
   public ascii2native(str, ac) {

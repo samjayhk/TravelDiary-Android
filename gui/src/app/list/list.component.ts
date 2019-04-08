@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {  Component, OnInit } from '@angular/core';
 import {Location} from '@angular/common';
 import { RestService } from '../service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UniService } from '../uni.services';
-import { faPassport, faCommentAlt } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faCalendarDay, faPassport, faCommentAlt, faTag } from '@fortawesome/free-solid-svg-icons'
+import { isUndefined } from 'util';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Component({
   selector: 'list',
@@ -14,8 +16,12 @@ import { faPassport, faCommentAlt } from '@fortawesome/free-solid-svg-icons'
 export class ListComponent implements OnInit {
 
   page = this.actRoute.snapshot.params['page'];
-  
+  tid = this.actRoute.snapshot.params['tid'];
+
+  faTag = faTag;
   faComment = faCommentAlt;
+  faUser = faUser;
+  faCalendarDay = faCalendarDay;
   session:boolean;
   localSession:string;
 
@@ -23,28 +29,52 @@ export class ListComponent implements OnInit {
   threadList: any;
 
   currentTags = 0;
-  _subscriptionViewPage;
+  _subscriptionViewPage1;
+  _subscriptionViewPage2;
 
   constructor(private location: Location, public rest:RestService, public uni: UniService, public actRoute: ActivatedRoute, public router: Router) { 
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     if (uni.pageViewChange2.observers.length === 0) {
-      this._subscriptionViewPage = uni.pageViewChange2.subscribe((value) => {
-        this.page = value;
-
-        if (this.currentTags === 0) {
-          this.getThreadList();
-        } else {
-          this.getThreadListWithTags(this.currentTags, value)
+      this._subscriptionViewPage1 = uni.pageViewChange2.subscribe((value) => {
+          this.page = value;
+          if (this.currentTags === 0) {
+            this.getThreadList();
+          } else {
+            this.getThreadListWithTags(this.currentTags, value)
+          }
+      });
+    }
+    if (uni.listViewRefreshChange.observers.length === 0) {
+      this._subscriptionViewPage2 = uni.listViewRefreshChange.subscribe((value) => {
+        if (value) {
+          if (this.currentTags === 0) {
+            this.getThreadList();
+          } else {
+            this.getThreadListWithTags(this.currentTags, this.page)
+            
+          }
+          this.uni.setListViewRefreshChange(false)
         }
+        
       });
     }
   }
+
+  ngOnDestroy() {
+    this._subscriptionViewPage1.unsubscribe();
+    this._subscriptionViewPage2.unsubscribe();
+  }
+
 
   ngOnInit() {
     this.uni.setCurrentViewPage(this.page)
     this.loadSession();
     this.getTags();
-    this.getThreadList();
+    if (this.tid === undefined) {
+      this.getThreadList();
+    } else {
+      this.getThreadListWithTags(this.tid, this.page)
+    }
   }
 
   loadSession() {
@@ -82,12 +112,13 @@ export class ListComponent implements OnInit {
     return this.rest.getThreadList(this.page, 0).subscribe(
       threadList => {
         if (threadList.result) {
-          this.threadList = threadList;
-          this.uni.setCurrentPageRangeChange(this.threadList.sum);
+          this.threadList = threadList.thread;
+          this.uni.setCurrentPageRangeChange(threadList.sum);
         } else {
           this.threadList = {}
           this.uni.setCurrentPageRangeChange(1);
         }
+        this.changeDetectorRef.detectChanges();
       }
     );
   }
@@ -96,8 +127,8 @@ export class ListComponent implements OnInit {
     return this.rest.getThreadList(page, tags).subscribe(
       threadList => {
         if (threadList.result) {
-          this.threadList = threadList;
-          this.uni.setCurrentPageRangeChange(this.threadList.sum);
+          this.threadList = threadList.thread;
+          this.uni.setCurrentPageRangeChange(threadList.sum);
         } else {
           this.threadList = {}
           this.uni.setCurrentPageRangeChange(1);
@@ -116,6 +147,7 @@ export class ListComponent implements OnInit {
   public chageTags(tid, page) {
     this.currentTags = tid;
     this.location.go('thread/tag/' + tid + '/' + page)
+    this.uni.setCurrentViewPage(page)
     this.getThreadListWithTags(tid, page);
     this.uni.setCurrentTagsChange(tid);
   }
