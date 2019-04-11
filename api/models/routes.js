@@ -96,6 +96,8 @@ const routes = (server) => {
 		next()
 	})
 
+	
+
 	server.get('/thread/tag/:tid/:page', async (req, res, next) => {
 		const { page, tid } = req.params
 		try {

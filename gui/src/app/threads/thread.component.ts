@@ -13,7 +13,7 @@ import { faUser, faCalendarDay, faEdit, faTrashAlt, faPassport, faChevronDown, f
 })
 
 @Pipe({ name: 'safeHtml'})
-export class ThreadComponent implements OnInit, PipeTransform {
+export class ThreadComponent implements OnInit {
 
   param;
   pid = this.actRoute.snapshot.paramMap.get('pid');

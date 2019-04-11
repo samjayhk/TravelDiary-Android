@@ -115,10 +115,9 @@ export class ListComponent implements OnInit {
           this.threadList = threadList.thread;
           this.uni.setCurrentPageRangeChange(threadList.sum);
         } else {
-          this.threadList = {}
+          this.threadList = null
           this.uni.setCurrentPageRangeChange(1);
         }
-        this.changeDetectorRef.detectChanges();
       }
     );
   }
@@ -126,11 +125,12 @@ export class ListComponent implements OnInit {
   public getThreadListWithTags(tags, page) {
     return this.rest.getThreadList(page, tags).subscribe(
       threadList => {
+        console.log(threadList)
         if (threadList.result) {
           this.threadList = threadList.thread;
           this.uni.setCurrentPageRangeChange(threadList.sum);
         } else {
-          this.threadList = {}
+          this.threadList = null
           this.uni.setCurrentPageRangeChange(1);
         }
       }

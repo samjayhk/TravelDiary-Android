@@ -15,6 +15,7 @@
     </div>
   </div>
   <div class="thread-list" id="style-6">
+    <ng-container *ngIf="threadList!==null" >
     <div *ngFor="let t of threadList; let i = index;" class="box">
       <div class="container" *ngIf="i===0;" style="margin-top: 50px;" (click)="viewThread(t.pid, 1)">
         <div class="list">
@@ -107,5 +108,6 @@
         </div>
       </div>
     </div>
+    </ng-container>
   </div>
 </div>
