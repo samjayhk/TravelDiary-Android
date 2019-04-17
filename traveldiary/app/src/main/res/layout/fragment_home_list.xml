@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_1">
+
+    <com.jaredrummler.materialspinner.MaterialSpinner
+        android:id="@+id/tagsSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:ms_arrow_tint="@color/main_font_content"
+        app:ms_background_color="@color/main_blue"
+        app:ms_background_selector="@color/main_1"
+        app:ms_hint="Choose a country"
+        app:ms_hint_color="@color/main_font_content"
+        app:ms_text_color="@color/main_font_content" />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swifeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tagsSpinner">
+
+        <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/tagsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+</RelativeLayout>

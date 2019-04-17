@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="main_1">#050505</color> <!-- for background -->
+    <color name="main_2">#121213</color> <!-- for top & bottom & listview -->
+
+    <color name="main_icon_1">#565758</color> <!-- for inline icon -->
+    <color name="main_icon_2">#616263</color> <!-- for nav icon -->
+    <color name="main_icon_2_active">#D7D9DB</color>
+    <color name="main_icon_3">#272729</color> <!-- for search bar -->
+    <color name="main_icon_4">#1A1A1B</color>
+
+    <color name="main_font_title">#818384</color> <!-- for main text -->
+    <color name="main_font_content">#D7D9DB</color>
+    <color name="main_font_color_2">#757678</color>
+    <color name="main_blue">#3477CC</color>
+</resources>

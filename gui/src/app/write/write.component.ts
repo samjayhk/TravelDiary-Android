@@ -132,6 +132,7 @@ export class WriteComponent implements OnInit {
     var native = character[0];
     for (var i = 1; i < character.length; i++) {
         var code = character[i];
+        
         native += String.fromCharCode(parseInt("0x" + code.substring(0, 4)));
         if (code.length > 4) {
             native += code.substring(4, code.length);

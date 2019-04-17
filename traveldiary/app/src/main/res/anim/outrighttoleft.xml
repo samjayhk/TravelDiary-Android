@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+/**
+ * THIS PROJECT IS A SCHOOL PROJECT AND MADE BY HONG KONG INSTITUTE OF VOCATIONAL EDUCATION OF VOCATIONAL TRAINING COUNCIL STUDENTS.
+ * PLEASE BE MIND THAT YOU COULD NOT COPY, MODIFY OR SHARE THIS ANDROID STUDIO PROJECT IF YOU ARE NOT GET PERMISSION.
+ * GROUP INFORMATION:
+ * GROUP NUMBER: 1718-114112-02
+ * PROJECT TITLE: Sleeping Monitor
+ * GROUP MEMBER:
+ * NAME: TSANG Long Fung (160089057)
+ * NAME: CHAN Hoi Yat (160309114)
+ * NAME: FAN Po Chuen (160121836)
+ * NAME: LAU Hoi Sing (160025732)
+ * CONTACT NUMBER: (+852) 6679 2339
+ * CONTACT EMAIL: 160089057@stu.vtc.edu.hk
+ */
+-->
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <translate
+        android:duration="@android:integer/config_shortAnimTime"
+        android:fromXDelta="0"
+        android:toXDelta="-100%p" />
+</set>
