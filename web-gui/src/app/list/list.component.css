@@ -1,0 +1,205 @@
+/**
+ * THIS PROJECT IS A UNIVERSITY PROJECT AND MADE BY SCHOOL FOR HIGHER AND PROFESSIONAL EDUCATION WITH COVENTRY UNIVERSITY (UK).
+ * PLEASE BE MIND THAT YOU COULD NOT COPY, MODIFY OR SHARE THIS PROJECT IF YOU ARE NOT GET PERMISSION.
+ * AUTHOR INFORMATION:
+ * NAME: TSANG Long Fung (187107130)
+ * CONTACT NUMBER: (+852) 6679 2339
+ * CONTACT EMAIL: 187107130@stu.vtc.edu.hk
+ */
+
+/* content-list */
+.content-list {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+}
+
+.content-list > .tags-bar {
+    width: 20%;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border-right: 1px solid rgb(59, 58, 57);
+}
+
+.content-list > .tags-bar > .box {
+    width: 100%;
+}
+
+.content-list > .tags-bar > .box > .container {
+    max-height: 50px;
+    height: 50px;
+    width: 100%;
+    display: flex;
+}
+
+.content-list > .tags-bar > .box > .container:hover {
+    background-color: rgba(57, 57, 57, 0.4);
+    cursor: pointer;
+    border: .1px solid rgb(255, 255, 255);
+    width: 98%;
+    height: 48px;
+}
+
+.content-list > .tags-bar > .box > .container > .tags  {
+    color: rgb(204, 198, 192);
+    font-family: Open Sans Regular;
+    font-size: 1em;
+    margin: auto;
+    overflow: hidden;
+    text-align: center;
+}
+
+.content-list > .thread-list {
+    width: 80%;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.content-list > .thread-list > .box {
+    width: 100%;
+    overflow: hidden;
+}
+
+.content-list > .thread-list > .box > .container {
+    max-height: 80px;
+    height: 80px;
+    width: 100%;
+    display: flex;
+}
+
+.content-list > .thread-list > .box > .container:hover {
+    background-color: rgba(57, 57, 57, 0.6);
+    cursor: pointer;
+    border: .1px solid rgb(255, 255, 255);
+    width: 99%;
+    height: 78px;
+}
+
+.content-list > .thread-list > .box > .container > .list {
+    width: 100%;
+    margin: auto 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+.content-list > .thread-list > .box > .container > .list > .top {
+    display: flex;
+    color: gold;
+    font-family: Open Sans Regular;
+    font-size: 1em;
+    width: 100%;
+    padding: 5px 20px;
+}
+
+.content-list > .thread-list > .box > .container > .list > .top > .username {
+    display: flex;
+    padding-right: 10px;
+}
+
+.content-list > .thread-list > .box > .container > .list > .top > .username > .icon {
+    display: flex;
+    padding-right: 5px;
+    color: gold;
+    font-size: 0.8em;
+    margin: auto 0;
+}
+
+.content-list > .thread-list > .box > .container > .list > .top > .time {
+    display: flex;
+    padding-right: 10px;
+    color: rgb(132,132,130);
+}
+
+.content-list > .thread-list > .box > .container > .list > .top > .time > .icon {
+    display: flex;
+    padding-right: 5px;
+    color: rgb(132,132,130);
+    font-size: 0.8em;
+    margin: auto 0;
+}
+
+.content-list > .thread-list > .box > .container > .list > .top > .count {
+    display: flex;
+    padding-right: 10px;
+    color: rgb(132,132,130);
+}
+
+.content-list > .thread-list > .box > .container > .list > .top > .count > .icon {
+    display: flex;
+    padding-right: 5px;
+    color: rgb(132,132,130);
+    font-size: 0.8em;
+    margin: auto 0;
+}
+
+.content-list > .thread-list > .box > .container > .list > .top > .tags {
+    display: flex;
+    padding-right: 10px;
+    color: rgb(132,132,130);
+}
+
+.content-list > .thread-list > .box > .container > .list > .top > .tags > .icon {
+    display: flex;
+    padding-right: 5px;
+    color: rgb(132,132,130);
+    font-size: 0.8em;
+    margin: auto 0;
+}
+
+.content-list > .thread-list > .box > .container > .list > .container > .subject {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* autoprefixer: off */
+    display:-moz-box;
+    -moz-box-orient:vertical;
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    display:box;
+    box-orient:vertical;
+    -webkit-box-orient: vertical;
+    /* autoprefixer: on */
+    -webkit-line-clamp: 1;
+    line-height: 1.2em;
+    max-height: 1em;
+    font-size: 1.2em;
+    color: white;
+    font-family: Open Sans Regular;
+    padding: 5px 0 5px 20px;
+    word-wrap: break-word;
+}
+
+.content-list > .thread-list > .box > .container > .list > .container {
+    display: flex;
+    width: 90%;
+}
+
+.content-list > .thread-list > .box > .container > .list > .container > .pages {
+    color: rgb(132,132,130);
+    font-family: Open Sans Regular;
+    font-size: 0.85em;
+    display: flex;
+    margin: auto 0;
+}
+
+.content-list > .thread-list > .box > .container > .list > .container > .pages > div {
+    padding: 0 0.4rem;
+}
+
+.content-list > .thread-list > .box > .container > .list > .container > .pages > div:hover {
+    background-color: rgba(57, 57, 57, 0.6);
+    cursor: pointer;
+    border: .1px solid rgb(255, 255, 255);
+}
+
+@media only screen and (max-width: 700px) {
+    .content-list > .tags-bar {
+        display: none;
+    }
+    .content-list > .thread-list {
+        width: 100%;
+    }
+}
+

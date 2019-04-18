@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+ * THIS PROJECT IS A UNIVERSITY PROJECT AND MADE BY SCHOOL FOR HIGHER AND PROFESSIONAL EDUCATION WITH COVENTRY UNIVERSITY (UK).
+ * PLEASE BE MIND THAT YOU COULD NOT COPY, MODIFY OR SHARE THIS PROJECT IF YOU ARE NOT GET PERMISSION.
+ * AUTHOR INFORMATION:
+ * NAME: TSANG Long Fung (187107130)
+ * CONTACT NUMBER: (+852) 6679 2339
+ * CONTACT EMAIL: 187107130@stu.vtc.edu.hk -->
+
+<resources>
+    <string name="app_name">TravelDiary</string>
+
+    <string name="home">home</string>
+    <string name="write">write</string>
+    <string name="user">user</string>
+
+    <string name="search">Search</string>
+
+    <string name="tab_popular">Popular</string>
+    <string name="tab_list">Tags</string>
+</resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+ * THIS PROJECT IS A UNIVERSITY PROJECT AND MADE BY SCHOOL FOR HIGHER AND PROFESSIONAL EDUCATION WITH COVENTRY UNIVERSITY (UK).
+ * PLEASE BE MIND THAT YOU COULD NOT COPY, MODIFY OR SHARE THIS PROJECT IF YOU ARE NOT GET PERMISSION.
+ * AUTHOR INFORMATION:
+ * NAME: TSANG Long Fung (187107130)
+ * CONTACT NUMBER: (+852) 6679 2339
+ * CONTACT EMAIL: 187107130@stu.vtc.edu.hk -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="50dp"
+    android:height="50dp"
+    android:viewportWidth="50"
+    android:viewportHeight="50">
+    <path
+        android:fillColor="#d7d9db"
+        android:pathData="M25,40S14.37,26.44 14.37,20.63a10.63,10.63 0,0 1,21.26 0C35.63,26.44 25,40 25,40ZM24.89,16.15a4.48,4.48 0,1 0,4.52 4.48A4.49,4.49 0,0 0,24.89 16.15Z" />
+</vector>

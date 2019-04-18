@@ -1,0 +1,285 @@
+/**
+ * THIS PROJECT IS A UNIVERSITY PROJECT AND MADE BY SCHOOL FOR HIGHER AND PROFESSIONAL EDUCATION WITH COVENTRY UNIVERSITY (UK).
+ * PLEASE BE MIND THAT YOU COULD NOT COPY, MODIFY OR SHARE THIS PROJECT IF YOU ARE NOT GET PERMISSION.
+ * AUTHOR INFORMATION:
+ * NAME: TSANG Long Fung (187107130)
+ * CONTACT NUMBER: (+852) 6679 2339
+ * CONTACT EMAIL: 187107130@stu.vtc.edu.hk
+ */
+
+.content {
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll;
+}
+
+.content > .number {
+    width: 100%;
+    height: 80px;
+    margin: auto;
+    color: gold;
+    font-family: Open Sans Regular;
+    font-size: 1.125em;
+    text-align: center;
+    display: flex;
+    margin-top: 50px;
+}
+
+.content > .number > div {
+    margin: auto;
+    display: flex;
+}
+
+.down {
+    font-size: 0.5em;
+    margin: auto 0;
+    padding: 0 10px;
+}
+
+.content > .number-down {
+    width: 100%;
+    height: 80px;
+    margin: auto;
+    color: gold;
+    font-family: Open Sans Regular;
+    font-size: 1.125em;
+    text-align: center;
+    display: flex;
+    margin-top: -10px; 
+}
+
+.content > .number-down > div {
+    margin: auto;
+    display: flex;
+}
+
+.content > .thread {
+    height: auto;
+    width: 100%;
+    display: flex;
+}
+
+.content > .thread > .container {
+    height: auto;
+    width: 100%;
+    display: flex;
+}
+
+.content > .thread > .container > .box {
+    background-color: rgba(21,21,21, 0.6);
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 1.5rem 2rem;
+    margin: 0 0 10px 0;
+    border-top: 0.1px solid rgb(59, 58, 57);
+    border-bottom: 0.1px solid rgb(59, 58, 57);
+}
+
+.content > .thread > .container > .box > .top {
+    display: flex;
+    width: 100%;
+    height: auto;
+    font-size: 1.125em;
+    font-family: Open Sans Regular;
+    margin-bottom: 20px;
+}
+
+.content > .thread > .container > .box > .top > .left {
+    display: flex;
+    margin: auto 0;
+}
+
+.content > .thread > .container > .box > .top > .right {
+    margin: auto 0 auto auto;
+    display: flex;
+}
+
+.content > .thread > .container > .box > .top > .left > .id {
+    color: gold;
+}
+
+.content > .thread > .container > .box > .top > .left > .username {
+    color: rgb(132,132,130);
+    margin: auto 10px auto 10px;
+    display: flex;
+}
+
+.content > .thread > .container > .box > .top > .left > .username > fa-icon {
+    color: rgb(132,132,130);
+    font-size: 0.8em;
+    margin: auto 0;
+    padding-right: 5px;
+}
+
+.content > .thread > .container > .box > .top > .left > .days {
+    color: rgb(132,132,130);
+    margin: auto 5px auto 5px;
+    display: flex;
+}
+
+.content > .thread > .container > .box > .top > .left > .days > fa-icon {
+    color: rgb(132,132,130);
+    font-size: 0.8em;
+    margin: auto 0;
+    padding-right: 5px;
+}
+
+.content > .thread > .container > .box > .top > .left > .tags {
+    display: flex;
+    padding-left: 5px;
+    color: rgb(132,132,130);
+}
+
+.content > .thread > .container > .box > .top > .left > .tags > fa-icon {
+    color: rgb(132,132,130);
+    font-size: 0.8em;
+    margin: auto 0;
+    padding-right: 5px;
+}
+
+.content > .thread > .container > .box > .top > .right > .container {
+    display: flex;
+}
+
+.content > .thread > .container > .box > .top > .right > .container > fa-icon {
+    color: rgb(132,132,130);
+    padding: 10px;
+    font-size: 1em;
+}
+
+.content > .thread > .container > .box > .top > .right > .container:hover {
+    background-color: rgba(57, 57, 57, 0.6);
+    cursor: pointer;
+}
+
+.content > .thread > .container > .box > .uptime {
+    color: rgb(132,132,130);
+    margin-top: -20px;
+    text-align: center;
+    font-size: 0.8em;
+    font-family: Open Sans Regular;
+    text-transform: uppercase;
+}
+
+.content > .thread > .container > .box > .content {
+    font-size: 1em;
+    font-family: Open Sans Regular;
+    color: white;
+    overflow: hidden;
+}
+
+.content > .thread > .container > .box > .content > img {
+    margin: 0 auto;
+    max-width: 50%;
+}
+
+.content > .comment {
+    height: auto;
+    width: 100%;
+}
+
+.content > .comment > .container {
+    height: auto;
+    width: 100%;
+    display: flex;
+}
+
+.content > .comment > .container > .box {
+    background-color: rgba(21,21,21, 0.6);
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 1.5rem 2rem;
+    margin: 0 0 10px 0;
+    border-top: 0.1px solid rgb(59, 58, 57);
+    border-bottom: 0.1px solid rgb(59, 58, 57);
+}
+
+.content > .comment > .container > .box > .uptime {
+    color: rgb(132,132,130);
+    margin-top: -20px;
+    text-align: center;
+    font-size: 0.8em;
+    font-family: Open Sans Regular;
+    text-transform: uppercase;
+}
+
+.content > .comment > .container > .box > .top {
+    display: flex;
+    width: 100%;
+    height: auto;
+    font-size: 1.125em;
+    font-family: Open Sans Regular;
+    margin-bottom: 20px;
+}
+
+.content > .comment > .container > .box > .top > .left {
+    display: flex;
+    margin: auto 0;
+}
+
+.content > .comment > .container > .box > .top > .left > .days {
+    color: rgb(132,132,130);
+    margin: auto 5px auto 5px;
+    display: flex;
+}
+
+.content > .comment > .container > .box > .top > .left > .days > fa-icon {
+    color: rgb(132,132,130);
+    font-size: 0.8em;
+    margin: auto 0;
+    padding-right: 5px;
+}
+
+.content > .comment > .container > .box > .top > .right {
+    margin: auto 0 auto auto;
+    display: flex;
+}
+
+.content > .comment > .container > .box > .top > .left > .id {
+    color: gold;
+}
+
+.content > .comment > .container > .box > .top > .left > .username {
+    color: rgb(132,132,130);
+    margin: auto 10px auto 10px;
+    display: flex;
+}
+
+.content > .comment > .container > .box > .top > .left > .username > fa-icon {
+    color: rgb(132,132,130);
+    font-size: 0.8em;
+    margin: auto 0;
+    padding-right: 5px;
+}
+
+.content > .comment > .container > .box > .top > .right > .container {
+    display: flex;
+}
+
+.content > .comment > .container > .box > .top > .right > .container > fa-icon {
+    color: rgb(132,132,130);
+    padding: 10px;
+    font-size: 1em;
+}
+
+.content > .comment > .container > .box > .top > .right > .container:hover {
+    background-color: rgba(57, 57, 57, 0.6);
+    cursor: pointer;
+}
+
+.content > .comment > .container > .box > .content {
+    font-size: 1em;
+    font-family: Open Sans Regular;
+    color: white;
+    overflow: hidden;
+}
+
+.content > .comment > .container > .box > .content > img {
+    margin: 0 auto;
+    max-width: 50%;
+}
+

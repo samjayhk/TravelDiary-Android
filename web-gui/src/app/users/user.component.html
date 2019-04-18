@@ -1,0 +1,47 @@
+<!--
+ * THIS PROJECT IS A UNIVERSITY PROJECT AND MADE BY SCHOOL FOR HIGHER AND PROFESSIONAL EDUCATION WITH COVENTRY UNIVERSITY (UK).
+ * PLEASE BE MIND THAT YOU COULD NOT COPY, MODIFY OR SHARE THIS PROJECT IF YOU ARE NOT GET PERMISSION.
+ * AUTHOR INFORMATION:
+ * NAME: TSANG Long Fung (187107130)
+ * CONTACT NUMBER: (+852) 6679 2339
+ * CONTACT EMAIL: 187107130@stu.vtc.edu.hk -->
+ 
+<div class="background" (click)="closeUser()">
+  <div class="user-box" (click)="$event.stopPropagation()">
+    <div class="container">
+      <div class="title">
+        <div>Travel Diary</div>
+      </div>
+      <div class="user-input">
+        <div class="input" *ngIf="!session">
+          <input type="text" name="username" placeholder="Username" autocomplete="off" autofocus="on" [(ngModel)]="username">
+          <input type="password" name="oldPassword" placeholder="Password" autocomplete="off" [(ngModel)]="oldPassword" *ngIf="register!==2">
+          <input type="password" name="newPassword" placeholder="Confirm Password" autocomplete="off" [(ngModel)]="newPassword" *ngIf="register===1" >
+          <input type="email" name="email" placeholder="Email" autocomplete="off" [(ngModel)]="email" *ngIf="register!==0" >
+        </div>
+        <div class="input-fill" *ngIf="session">
+          <!-- <div>{{localSession.username}}</div>
+          <div>{{localSession.reg | date}} (Reg)</div>
+          <div>{{localSession.last | date}} (Last)</div>
+          <div>{{localSession.email}}</div> -->
+          <input type="text" [(ngModel)]=localSession.username readonly>
+          <input type="text" [(ngModel)]="last" readonly>
+          <input type="text" [(ngModel)]="localSession.email" readonly>
+          <input type="password" [(ngModel)]="oldPassword" placeholder="old password">
+          <input type="password" [(ngModel)]="newPassword" placeholder="new password">
+        </div>
+      </div>
+      <div class="user-button">
+        <div class="btn-register" (click)="btnRegister()">
+          <div *ngIf="register!==0 && !session">Login</div>
+          <div *ngIf="register===0 && !session">Register</div>
+          <div *ngIf="session">Change Password</div>
+        </div>
+        <div class="btn-login" (click)="btnSubmit()">
+          <div *ngIf="!session">Submit</div>
+          <div *ngIf="session">Logout</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

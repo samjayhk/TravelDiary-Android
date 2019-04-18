@@ -1,0 +1,92 @@
+<!--
+ * THIS PROJECT IS A UNIVERSITY PROJECT AND MADE BY SCHOOL FOR HIGHER AND PROFESSIONAL EDUCATION WITH COVENTRY UNIVERSITY (UK).
+ * PLEASE BE MIND THAT YOU COULD NOT COPY, MODIFY OR SHARE THIS PROJECT IF YOU ARE NOT GET PERMISSION.
+ * AUTHOR INFORMATION:
+ * NAME: TSANG Long Fung (187107130)
+ * CONTACT NUMBER: (+852) 6679 2339
+ * CONTACT EMAIL: 187107130@stu.vtc.edu.hk -->
+
+<div class="content-list">
+  <div class="thread-list" id="style-6">
+    <div *ngFor="let t of threadList.search; let i = index;" class="box">
+      <div class="container" *ngIf="i===0;" style="margin-top: 50px;" (click)="viewThread(t.pid, 1)">
+        <div class="list">
+          <div class="top">
+              <div class="username">
+                {{t.username}}
+              </div>
+              <div class="time">
+                  {{dateDiff(t.ntime)}}
+              </div>
+              <div class="count">
+                  <fa-icon [icon]="faComment" class="icon"></fa-icon>
+                  {{t.count}}
+              </div>
+          </div>
+          <div class="container">
+            <div class="subject">
+                {{ascii2native(t.subject)}}
+            </div>
+            <ng-container *ngIf="arr(t.pages) as page">
+              <div class="pages" *ngIf="page.length > 8">
+                <div (click)="viewThread(t.pid, 1)">{{1}}</div>
+                <div (click)="viewThread(t.pid, 2)">{{2}}</div>
+                <div (click)="viewThread(t.pid, 3)">{{3}}</div>
+                <div (click)="viewThread(t.pid, 4)">{{4}}</div>
+                <div (click)="viewThread(t.pid, 5)">{{5}}</div>
+                <div>...</div>
+                <ng-container *ngFor="let p of page.slice(-3); let i = index;" >
+                  <div (click)="viewThread(t.pid, p)">{{p}}</div>
+                </ng-container>
+              </div>
+              <div class="pages" *ngIf="page.length < 8">
+                <ng-container *ngFor="let p of page; let i = index;" >
+                  <div (click)="viewThread(t.pid, p+1)">{{p+1}}</div>
+                </ng-container>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+      <div class="container" *ngIf="i!==0;" (click)="viewThread(t.pid, 1)">
+        <div class="list">
+          <div class="top">
+              <div class="username">
+                {{t.username}}
+              </div>
+              <div class="time">
+                  {{dateDiff(t.ntime)}}
+              </div>
+              <div class="count">
+                  <fa-icon [icon]="faComment" class="icon"></fa-icon>
+                  {{t.count}}
+              </div>
+          </div>
+          <div class="container">
+            <div class="subject">
+                {{ascii2native(t.subject)}}
+            </div>
+            <ng-container *ngIf="arr(t.pages) as page">
+              <div class="pages" *ngIf="page.length > 8">
+                <div (click)="viewThread(t.pid, 1)">{{1}}</div>
+                <div (click)="viewThread(t.pid, 2)">{{2}}</div>
+                <div (click)="viewThread(t.pid, 3)">{{3}}</div>
+                <div (click)="viewThread(t.pid, 4)">{{4}}</div>
+                <div (click)="viewThread(t.pid, 5)">{{5}}</div>
+                <div >...</div>
+                <ng-container *ngFor="let p of page.slice(-3); let i = index;" >
+                  <div (click)="viewThread(t.pid, p+1)">{{p+1}}</div>
+                </ng-container>
+              </div>
+              <div class="pages" *ngIf="page.length < 8">
+                <ng-container *ngFor="let p of page; let i = index;" >
+                  <div (click)="viewThread(t.pid, p+1)">{{p+1}}</div>
+                </ng-container>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,349 @@
+/**
+ * THIS PROJECT IS A UNIVERSITY PROJECT AND MADE BY SCHOOL FOR HIGHER AND PROFESSIONAL EDUCATION WITH COVENTRY UNIVERSITY (UK).
+ * PLEASE BE MIND THAT YOU COULD NOT COPY, MODIFY OR SHARE THIS PROJECT IF YOU ARE NOT GET PERMISSION.
+ * AUTHOR INFORMATION:
+ * NAME: TSANG Long Fung (187107130)
+ * CONTACT NUMBER: (+852) 6679 2339
+ * CONTACT EMAIL: 187107130@stu.vtc.edu.hk
+ */
+
+
+.background {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    margin: 0;
+}
+
+.background > .user {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 99999999999999;
+}
+
+.background > .bkimage {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+    background-image: url('../assets/38010e52bb69ec1619fcaf9d5322055c.png');
+}
+
+.background > .diary-grid {
+    z-index: 999;
+    width: 90%;
+    height: 100%;
+    margin: 0 auto;
+    background-color: rgba(29, 29, 29, 0.8);
+}
+
+@media only screen and (max-width: 1160px) {
+    .background > .diary-grid {
+        width: 100%;
+    }
+}
+
+/* menu */
+.menu {
+    max-height: 50px;
+    width: inherit;
+    position: fixed;
+    z-index: 9999999999999;
+    height: 50px;
+    margin-top: 0;
+    overflow: hidden;
+    background-color: rgba(34, 34, 34, 0.6);
+    border-bottom: 1px solid rgb(59, 58, 57);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+
+.menu > .container {
+    display: flex;
+    margin: auto;
+    height: 100%;
+}
+
+.menu > .container > .left {
+    width: auto;
+    height: 100%;
+}
+
+.menu > .container > .left > .container {
+    width: auto;
+    height: 100%;
+    margin: auto auto auto 0;
+    display: flex;
+}
+
+.menu > .container > .left > .container > .back {
+    height: 100%;
+    display: flex;
+    width: auto;
+    padding: 0 10px;
+}
+
+.menu > .container > .left > .container > .back > .faArrowLeft {
+    color: white;
+    font-size: 1em;
+    margin: auto auto auto 0;
+}
+
+.menu > .container > .left > .container > .back:hover {
+    background-color: rgba(57, 57, 57, 0.6);
+    cursor: pointer;
+}
+
+.menu > .container > .left > .container > .container {
+    height: 100%;
+    display: flex;
+}
+
+.menu > .container > .left > .container > .container:hover {
+    background-color: rgba(57, 57, 57, 0.6);
+    cursor: pointer;
+}
+
+.menu > .container > .left > .container > .container > fa-icon {
+    color: white;
+    font-size: 1.2em;
+    margin: auto auto auto -1px;
+    display: flex;
+}
+
+.menu > .container > .left > .container > .container > .faPassport {
+    color: gold;
+    font-size: 1.5em;
+    margin: auto 20px;
+    display: flex;
+}
+
+.menu > .container > .container {
+    width: 100%;
+    display: flex;
+}
+
+.menu > .container > .container > .title {
+    color: gold;
+    font-family: Open Sans Regular;
+    text-transform: uppercase;
+    font-size: 1em;
+    text-align: center;
+    width: 100%;
+    margin: auto;
+}
+
+.menu > .container > .container > .search {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.menu > .container > .container > .search > input {
+    height: 100%;
+    width: 100%;
+    border: none;
+    background-color: rgba(57, 57, 57, 0.4);
+    font-size: 1.2em;
+    font-family: Open Sans Regular;
+    color: white;
+    padding: 0px 10px 0px 10px;
+}
+
+.menu > .container > .container > .search > input:focus {
+    padding: 0px 10px 0px 10px;
+    outline: none;
+}
+
+.menu > .container > .right {
+    width: auto;
+    height: 100%;
+    display: flex;
+    margin: auto 0 auto auto;
+}
+
+.menu > .container > .right > .container {
+    width: 50%;
+    height: 100%;
+    display: flex;
+}
+
+.menu > .container > .right > .container > .float {
+    margin: auto 0 auto auto;
+    display: flex;
+    height: 100%;
+}
+
+.menu > .container > .right > .container > .float > .container {
+    height: 100%;
+    display: flex;
+}
+
+.menu > .container > .right > .container > .float > .container > fa-icon {
+    color: white;
+    margin: auto 15px;
+    font-size: 1em;
+}
+
+.menu > .container > .right > .container > .float > .container:hover {
+    background-color: rgba(57, 57, 57, 0.6);
+    cursor: pointer;
+}
+
+/** ThreadView **/
+.threadView-menu {
+    max-height: 50px;
+    width: inherit;
+    position: fixed;
+    z-index: 9999999999999;
+    height: 50px;
+    margin-top: 0;
+    overflow: hidden;
+    background-color: rgba(34, 34, 34, 0.6);
+    border-bottom: 1px solid rgb(59, 58, 57);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+
+.threadView-menu > .container {
+    display: flex;
+    margin: auto;
+    height: 100%;
+}
+
+.threadView-menu > .container > .left {
+    width: auto;
+    height: 100%;
+}
+
+.threadView-menu > .container > .left > .container {
+    width: auto;
+    height: 100%;
+    margin: auto auto auto 0;
+    display: flex;
+}
+
+.threadView-menu > .container > .left > .container > .back {
+    height: 100%;
+    display: flex;
+    width: auto;
+    padding: 0 10px;
+}
+
+.threadView-menu > .container > .left > .container > .back > .faArrowLeft {
+    color: white;
+    font-size: 1em;
+    margin: auto auto auto 0;
+}
+
+.threadView-menu > .container > .left > .container > .container {
+    height: 100%;
+    display: flex;
+}
+
+.threadView-menu > .container > .left > .container > .back:hover {
+    background-color: rgba(57, 57, 57, 0.6);
+    cursor: pointer;
+}
+
+.threadView-menu > .container > .left > .container > .container:hover {
+    background-color: rgba(57, 57, 57, 0.6);
+    cursor: pointer;
+}
+
+.threadView-menu > .container > .left > .container > .container > fa-icon {
+    color: white;
+    font-size: 1.2em;
+    margin: auto auto auto -1px;
+    display: flex;
+}
+
+.threadView-menu > .container > .left > .container > .container > .faPassport {
+    color: gold;
+    font-size: 1.5em;
+    margin: auto 20px;
+    display: flex;
+}
+
+.threadView-menu > .container > .container {
+    width: auto;
+    display: flex;
+    overflow: hidden;
+}
+
+.threadView-menu > .container > .container > .title {
+    color: gold;
+    font-family: Open Sans Regular;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    font-size: 1em;
+    text-align: center;
+    width: 100%;
+    margin: auto;
+    white-space: nowrap; 
+}
+
+.threadView-menu > .container > .right {
+    width: auto;
+    height: 100%;
+    display: flex;
+    margin: auto 0 auto auto;
+}
+
+.threadView-menu > .container > .right > .container {
+    width: 50%;
+    height: 100%;
+    display: flex;
+}
+
+.threadView-menu > .container > .right > .container > .float {
+    margin: auto 0 auto auto;
+    display: flex;
+    height: 100%;
+}
+
+.threadView-menu > .container > .right > .container > .float > .container {
+    height: 100%;
+    display: flex;
+}
+
+.threadView-menu > .container > .right > .container > .float > .container > fa-icon {
+    color: white;
+    margin: auto 15px;
+    font-size: 1em;
+}
+
+.threadView-menu > .container > .right > .container > .float > .container:hover {
+    background-color: rgba(57, 57, 57, 0.6);
+    cursor: pointer;
+}
+
+.float-container {
+    height: 50px;
+    width: 50px;
+    right: 8%;
+    bottom: 5%;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    background: rgba(255, 215, 0, 0.6);
+    border-radius: 50%;
+    color: #fff;
+    cursor: pointer;
+    outline: 0;
+    padding: 0;
+    text-align: center;
+    position: fixed;
+    display: flex;
+}
+
+.float-container > .d-inline-block > #dropdownBasic1 {
+    font-family: Open Sans Regular;
+    font-size: 1.5em;
+    color: white;
+    text-align: center;
+    margin: auto;
+}
+
+
