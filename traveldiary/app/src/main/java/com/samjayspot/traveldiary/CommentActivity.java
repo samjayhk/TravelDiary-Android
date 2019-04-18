@@ -1,14 +1,25 @@
 package com.samjayspot.traveldiary;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -16,13 +27,20 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -36,8 +54,58 @@ public class CommentActivity extends SwipeBackActivity implements View.OnClickLi
     TextView btnSubmit, btnUpload, txtTitle;
     EditText edtContent;
 
+    ProgressBar progressBar;
     RelativeLayout commentLayout;
     SharedPreferences sharedPreferences;
+
+    private void postImageRequest(String url, File file) {
+        OkHttpClient client = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).writeTimeout(180, TimeUnit.SECONDS).readTimeout(180, TimeUnit.SECONDS).build();
+        RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("filename", file.getName(), RequestBody.create(MediaType.parse("image/jpeg"), file))
+                .build();
+        Request request = new Request.Builder().url(url).post(body).build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Snackbar snackbar = Snackbar.make(commentLayout, e.toString(), Snackbar.LENGTH_SHORT);
+                View rootSnackbar = snackbar.getView();
+                rootSnackbar.setBackgroundColor(Color.RED);
+                snackbar.show();
+            }
+
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onResponse(Call call, final Response response) throws IOException {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject json = new JSONObject(response.body().string());
+                            progressBar.setVisibility(View.INVISIBLE);
+                            if (Boolean.parseBoolean(json.getString("result"))) {
+                                edtContent.setText(edtContent.getText().toString() + "\n<img src=\"http://localhost:3001/uploads/" + json.getString("filename") + "\">");
+                                Snackbar snackbar = Snackbar.make(commentLayout, json.getString("message"), Snackbar.LENGTH_SHORT);
+                                View rootSnackbar = snackbar.getView();
+                                rootSnackbar.setBackgroundColor(getResources().getColor(R.color.main_blue));
+                                snackbar.show();
+                            } else {
+                                Snackbar snackbar = Snackbar.make(commentLayout, json.getString("message"), Snackbar.LENGTH_SHORT);
+                                View rootSnackbar = snackbar.getView();
+                                rootSnackbar.setBackgroundColor(Color.RED);
+                                snackbar.show();
+                            }
+                        } catch (
+                                JSONException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+            }
+        });
+    }
 
     private void postRequest(String url, String comment) {
 
@@ -148,11 +216,151 @@ public class CommentActivity extends SwipeBackActivity implements View.OnClickLi
                 break;
             case R.id.btnCommentComment:
                 String content = Html.toHtml(edtContent.getText(), Html.FROM_HTML_MODE_LEGACY);
-                content = this.nativeToUnicode(content);
-
+                content = this.nativeToUnicode(content.replace("&lt;", "<").replace("&gt;", ">"));
                 postRequest(APIsManagement.getWriteComment(pid), content);
                 break;
             case R.id.btnCommentUpload:
+                Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(pickPhoto, 0);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public static Bitmap getSmallBitmap(String filePath) {
+
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(filePath, options);
+
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, 480, 800);
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+
+        Bitmap bm = BitmapFactory.decodeFile(filePath, options);
+        if (bm == null) {
+            return null;
+        }
+        int degree = readPictureDegree(filePath);
+        bm = rotateBitmap(bm, degree);
+        ByteArrayOutputStream baos = null;
+        try {
+            baos = new ByteArrayOutputStream();
+            bm.compress(Bitmap.CompressFormat.JPEG, 30, baos);
+
+        } finally {
+            try {
+                if (baos != null)
+                    baos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return bm;
+    }
+
+    private static Bitmap rotateBitmap(Bitmap bitmap, int rotate) {
+        if (bitmap == null)
+            return null;
+
+        int w = bitmap.getWidth();
+        int h = bitmap.getHeight();
+
+        // Setting post rotate to 90
+        Matrix mtx = new Matrix();
+        mtx.postRotate(rotate);
+        return Bitmap.createBitmap(bitmap, 0, 0, w, h, mtx, true);
+    }
+
+    private static int readPictureDegree(String path) {
+        int degree = 0;
+        try {
+            ExifInterface exifInterface = new ExifInterface(path);
+            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    degree = 90;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    degree = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    degree = 270;
+                    break;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return degree;
+    }
+
+    private static int calculateInSampleSize(BitmapFactory.Options options,
+                                             int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            // Calculate ratios of height and width to requested height and
+            // width
+            final int heightRatio = Math.round((float) height
+                    / (float) reqHeight);
+            final int widthRatio = Math.round((float) width / (float) reqWidth);
+
+            // Choose the smallest ratio as inSampleSize value, this will
+            // guarantee
+            // a final image with both dimensions larger than or equal to the
+            // requested height and width.
+            inSampleSize = heightRatio < widthRatio ? widthRatio : heightRatio;
+        }
+
+        return inSampleSize;
+    }
+
+    private File persistImage(Bitmap bitmap, String path) {
+        File imageFile = new File(path);
+
+        OutputStream os;
+        try {
+            os = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
+            os.flush();
+            os.close();
+        } catch (Exception e) {
+            Log.e(getClass().getSimpleName(), "Error writing bitmap", e);
+        }
+
+        return imageFile;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+        switch (requestCode) {
+            case 0:
+                if (resultCode == RESULT_OK) {
+                    progressBar = (ProgressBar) findViewById(R.id.indeterminateProgressBar);
+                    progressBar.setVisibility(View.VISIBLE);
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    String[] projection = {MediaStore.MediaColumns.DATA,
+                            MediaStore.MediaColumns.MIME_TYPE};
+
+                    Cursor cursor = getContentResolver().query(selectedImage,
+                            projection, null, null, null);
+                    cursor.moveToFirst();
+
+                    int columnIndex = cursor.getColumnIndex(projection[0]);
+                    String picturePath = cursor.getString(columnIndex);
+                    cursor.close();
+
+                    postImageRequest(APIsManagement.getUpload(), persistImage(getSmallBitmap(picturePath), picturePath));
+                }
                 break;
             default:
                 break;

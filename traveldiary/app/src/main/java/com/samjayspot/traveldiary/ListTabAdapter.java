@@ -121,6 +121,26 @@ public class ListTabAdapter extends RecyclerView.Adapter<ListTabAdapter.ViewHold
             }
         });
 
+        holder.btnComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent replyIntent = new Intent(v.getContext(), CommentActivity.class);
+                replyIntent.putExtra("pid", pid.get(position));
+                replyIntent.putExtra("title", subject.get(position));
+                v.getContext().startActivity(replyIntent);
+            }
+        });
+
+        holder.btnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, subject.get(position));
+                v.getContext().startActivity(Intent.createChooser(sharingIntent, "Share with friends"));
+            }
+        });
+
     }
 
     @Override

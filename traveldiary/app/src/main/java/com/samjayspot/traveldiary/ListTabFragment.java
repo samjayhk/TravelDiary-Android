@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -44,6 +45,8 @@ public class ListTabFragment extends Fragment {
     int currentPage = 1;
     int currentSum = 1;
 
+    boolean refresh = false;
+
     ArrayList<Integer> pid = new ArrayList<Integer>();
     ArrayList<Integer> uid = new ArrayList<Integer>();
     ArrayList<String> username = new ArrayList<String>();
@@ -67,6 +70,7 @@ public class ListTabFragment extends Fragment {
                     public void run() {
                         recyclerView.setAnimation(null);
                         listTabAdapter.notifyDataSetChanged();
+                        refresh = false;
                     }
                 });
             }
@@ -133,6 +137,7 @@ public class ListTabFragment extends Fragment {
                             public void run() {
                                 recyclerView.setAnimation(null);
                                 listTabAdapter.notifyDataSetChanged();
+                                refresh = false;
                             }
                         });
                     } else {
@@ -142,6 +147,7 @@ public class ListTabFragment extends Fragment {
                             public void run() {
                                 recyclerView.setAnimation(null);
                                 listTabAdapter.notifyDataSetChanged();
+                                refresh = false;
                             }
                         });
                         Snackbar snackbar = Snackbar.make(rootView, json.getString("message"), Snackbar.LENGTH_SHORT);
@@ -157,6 +163,7 @@ public class ListTabFragment extends Fragment {
                         public void run() {
                             recyclerView.setAnimation(null);
                             listTabAdapter.notifyDataSetChanged();
+                            refresh = false;
                         }
                     });
                 }
@@ -227,7 +234,7 @@ public class ListTabFragment extends Fragment {
             e.printStackTrace();
         }
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         listTabAdapter = new ListTabAdapter(pid, uid, username, tags, subject, ntime, count, pages, cover);
         recyclerView.setAdapter(listTabAdapter);
@@ -260,10 +267,22 @@ public class ListTabFragment extends Fragment {
             }
         });
 
+        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (refresh) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        });
+
         materialSpinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
                 try {
+                    refresh = true;
                     currentTid = position;
                     pid.clear();
                     uid.clear();

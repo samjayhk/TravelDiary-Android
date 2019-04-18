@@ -49,7 +49,7 @@ public class APIsManagement {
     }
 
     public static String getUpdateComment(int cid) {
-        return defaultServer + "thread/comment" + cid + "/update";
+        return defaultServer + "thread/comment/" + cid + "/update";
     }
 
     public static String getDeleteThread(int pid) {

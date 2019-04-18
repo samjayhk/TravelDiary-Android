@@ -131,7 +131,7 @@ public class PopularTabAdapter extends RecyclerView.Adapter<PopularTabAdapter.Vi
             public void onClick(View v) {
                 Intent replyIntent = new Intent(v.getContext(), CommentActivity.class);
                 replyIntent.putExtra("pid", pid.get(position));
-                replyIntent.putExtra("page", 1);
+                replyIntent.putExtra("title", subject.get(position));
                 v.getContext().startActivity(replyIntent);
             }
         });

@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -40,6 +41,8 @@ public class PopularTabFragment extends Fragment {
     int currentPage = 1;
     int currentSum = 1;
 
+    boolean refresh = false;
+
     ArrayList<Integer> pid = new ArrayList<Integer>();
     ArrayList<Integer> uid = new ArrayList<Integer>();
     ArrayList<String> username = new ArrayList<String>();
@@ -63,6 +66,7 @@ public class PopularTabFragment extends Fragment {
                     public void run() {
                         recyclerView.setAnimation(null);
                         adapter.notifyDataSetChanged();
+                        refresh = false;
                     }
                 });
             }
@@ -129,6 +133,7 @@ public class PopularTabFragment extends Fragment {
                                 public void run() {
                                 recyclerView.setAnimation(null);
                                 adapter.notifyDataSetChanged();
+                                refresh = false;
                             }
                         });
                     } else {
@@ -138,6 +143,7 @@ public class PopularTabFragment extends Fragment {
                             public void run() {
                                 recyclerView.setAnimation(null);
                                 adapter.notifyDataSetChanged();
+                                refresh = false;
                             }
                         });
                     }
@@ -149,6 +155,7 @@ public class PopularTabFragment extends Fragment {
                         public void run() {
                             recyclerView.setAnimation(null);
                             adapter.notifyDataSetChanged();
+                            refresh = false;
                         }
                     });
                 }
@@ -176,7 +183,7 @@ public class PopularTabFragment extends Fragment {
 
         callThread();
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         adapter = new PopularTabAdapter(pid, uid, username, tags, subject, ntime, count, pages, cover);
         recyclerView.setAdapter(adapter);
@@ -209,10 +216,22 @@ public class PopularTabFragment extends Fragment {
             }
         });
 
+        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (refresh) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        });
+
         mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swifeRefresh);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                refresh = true;
                 pid.clear();
                 uid.clear();
                 username.clear();

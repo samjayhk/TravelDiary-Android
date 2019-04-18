@@ -1,7 +1,6 @@
 package com.samjayspot.traveldiary;
 
 import android.annotation.SuppressLint;
-import android.app.AppComponentFactory;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,10 +13,7 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.RequiresPermission;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -26,18 +22,12 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.jaredrummler.materialspinner.MaterialSpinner;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -55,22 +45,20 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import static android.text.Html.FROM_HTML_MODE_COMPACT;
+public class EditCommentActivity extends SwipeBackActivity implements View.OnClickListener {
 
-public class WriteActivity extends SwipeBackActivity implements View.OnClickListener {
+    int pid;
+
+    int currentCid;
+    String currentComment;
 
     ImageView btnClose;
-    TextView btnSubmit, btnUpload;
-    EditText edtTitle, edtContent;
+    TextView btnSubmit, btnUpload, txtTitle;
+    EditText edtContent;
+
     ProgressBar progressBar;
-
-    RelativeLayout writeLayout;
-    MaterialSpinner spinner;
+    RelativeLayout commentLayout;
     SharedPreferences sharedPreferences;
-
-    int currentTid = 0;
-    ArrayList<Integer> tids = new ArrayList<Integer>();
-    ArrayList<String> tags = new ArrayList<String>();
 
     private void postImageRequest(String url, File file) {
         OkHttpClient client = new OkHttpClient.Builder().connectTimeout(10, TimeUnit.SECONDS).writeTimeout(180, TimeUnit.SECONDS).readTimeout(180, TimeUnit.SECONDS).build();
@@ -81,7 +69,7 @@ public class WriteActivity extends SwipeBackActivity implements View.OnClickList
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Snackbar snackbar = Snackbar.make(writeLayout, e.toString(), Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(commentLayout, e.toString(), Snackbar.LENGTH_SHORT);
                 View rootSnackbar = snackbar.getView();
                 rootSnackbar.setBackgroundColor(Color.RED);
                 snackbar.show();
@@ -89,43 +77,48 @@ public class WriteActivity extends SwipeBackActivity implements View.OnClickList
 
             @SuppressLint("SetTextI18n")
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                try {
-                    JSONObject json = new JSONObject(response.body().string());
-                    progressBar.setVisibility(View.INVISIBLE);
-                    if (Boolean.parseBoolean(json.getString("result"))) {
-                        edtContent.setText(edtContent.getText().toString() +  "\n<img src=\"http://localhost:3001/uploads/" + json.getString("filename")+ "\">");
-                        Snackbar snackbar = Snackbar.make(writeLayout, json.getString("message"), Snackbar.LENGTH_SHORT);
-                        View rootSnackbar = snackbar.getView();
-                        rootSnackbar.setBackgroundColor(getResources().getColor(R.color.main_blue));
-                        snackbar.show();
-                    } else {
-                        Snackbar snackbar = Snackbar.make(writeLayout, json.getString("message"), Snackbar.LENGTH_SHORT);
-                        View rootSnackbar = snackbar.getView();
-                        rootSnackbar.setBackgroundColor(Color.RED);
-                        snackbar.show();
+            public void onResponse(Call call, final Response response) throws IOException {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject json = new JSONObject(response.body().string());
+                            progressBar.setVisibility(View.INVISIBLE);
+                            if (Boolean.parseBoolean(json.getString("result"))) {
+                                edtContent.setText(edtContent.getText().toString() + "\n<img src=\"http://localhost:3001/uploads/" + json.getString("filename") + "\">");
+                                Snackbar snackbar = Snackbar.make(commentLayout, json.getString("message"), Snackbar.LENGTH_SHORT);
+                                View rootSnackbar = snackbar.getView();
+                                rootSnackbar.setBackgroundColor(getResources().getColor(R.color.main_blue));
+                                snackbar.show();
+                            } else {
+                                Snackbar snackbar = Snackbar.make(commentLayout, json.getString("message"), Snackbar.LENGTH_SHORT);
+                                View rootSnackbar = snackbar.getView();
+                                rootSnackbar.setBackgroundColor(Color.RED);
+                                snackbar.show();
+                            }
+                        } catch (
+                                JSONException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
+                });
 
             }
         });
     }
 
-    private void postRequest(String url, String tid, String subject, String content) {
+    private void putRequest(String url, String comment) {
 
         OkHttpClient client = new OkHttpClient();
         RequestBody formBody = new FormBody.Builder()
-                .add("tid", tid)
-                .add("subject", subject)
-                .add("content", content)
+                .add("comment", comment)
                 .build();
         Request request = new Request.Builder()
                 .addHeader("x-token", getSession().get(0).toString())
                 .url(url)
-                .post(formBody)
+                .put(formBody)
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -140,19 +133,21 @@ public class WriteActivity extends SwipeBackActivity implements View.OnClickList
                     JSONObject json = new JSONObject(response.body().string());
 
                     if (Boolean.parseBoolean(json.getString("result"))) {
-                        Intent intent = new Intent(WriteActivity.this, MainActivity.class);
-                        startActivity(intent);
-
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                onBackPressed();
+                                overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_top);
+                            }
+                        });
                     } else {
-
-                        Log.d("bugs", json.getString("message"));
-                        Snackbar snackbar = Snackbar.make(writeLayout, json.getString("message"), Snackbar.LENGTH_SHORT);
+                        Snackbar snackbar = Snackbar.make(commentLayout, json.getString("message"), Snackbar.LENGTH_SHORT);
                         View rootSnackbar = snackbar.getView();
                         rootSnackbar.setBackgroundColor(Color.RED);
                         snackbar.show();
                     }
                 } catch (JSONException e) {
-                    Snackbar snackbar = Snackbar.make(writeLayout, "Something went wrong", Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(commentLayout, e.toString(), Snackbar.LENGTH_SHORT);
                     View rootSnackbar = snackbar.getView();
                     rootSnackbar.setBackgroundColor(Color.RED);
                     snackbar.show();
@@ -161,75 +156,38 @@ public class WriteActivity extends SwipeBackActivity implements View.OnClickList
         });
     }
 
-    public void getRequest(String url) throws IOException {
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder().url(url).build();
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.d("bugs", e.toString());
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                try {
-
-                    JSONObject json = new JSONObject(response.body().string());
-
-                    if (Boolean.parseBoolean(json.getString("result"))) {
-
-                        JSONArray tagsList = json.getJSONArray("tags");
-
-                        for (int i = 0; i < tagsList.length(); i++) {
-                            JSONObject tag = tagsList.getJSONObject(i);
-                            tids.add(tag.getInt("tid"));
-                            tags.add(tag.getString("name"));
-                        }
-                        spinner.setItems(tags);
-                    } else {
-                        Log.d("bugs", json.getString("message"));
-                    }
-
-                } catch (JSONException e) {
-                    Log.d("bugs", e.toString());
-                }
-            }
-        });
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_write);
+        setContentView(R.layout.activity_comment);
         overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
 
-        writeLayout = (RelativeLayout) findViewById(R.id.writeLayout);
-        spinner = (MaterialSpinner) findViewById(R.id.writeSpinner);
-        btnClose = (ImageView) findViewById(R.id.btnClose);
-        btnSubmit = (TextView) findViewById(R.id.btnSubmit);
-        edtTitle = (EditText) findViewById(R.id.edtTitle);
+        commentLayout = (RelativeLayout) findViewById(R.id.commentLayout);
+        btnClose = (ImageView) findViewById(R.id.btnCommentClose);
+        btnSubmit = (TextView) findViewById(R.id.btnCommentComment);
+        txtTitle = (TextView) findViewById(R.id.txtCommentTitle);
         edtContent = (EditText) findViewById(R.id.edtContent);
-        btnUpload = (TextView) findViewById(R.id.btnUpload);
+        btnUpload = (TextView) findViewById(R.id.btnCommentUpload);
+
+        final Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            currentCid = extras.getInt("cid");
+            currentComment = extras.getString("comment");
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    txtTitle.setText(extras.getString("title"));
+                    edtContent.setText(currentComment);
+                    btnSubmit.setText("Put");
+                }
+            });
+        }
 
         btnClose.setOnClickListener(this);
         btnSubmit.setOnClickListener(this);
         btnUpload.setOnClickListener(this);
-
-        try {
-            this.getRequest(APIsManagement.getTagsList());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
-
-            @Override
-            public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-                currentTid = position;
-                //Snackbar.make(view, "Clicked " + item, Snackbar.LENGTH_LONG).show();
-            }
-        });
 
     }
 
@@ -243,7 +201,6 @@ public class WriteActivity extends SwipeBackActivity implements View.OnClickList
             session.add(2, sharedPreferences.getString("reg", ""));
             session.add(3, sharedPreferences.getString("last", ""));
             session.add(4, sharedPreferences.getString("email", ""));
-            Log.d("response", String.valueOf(session));
             return session;
         } else {
             Log.d("response", "No Session Record.");
@@ -270,19 +227,16 @@ public class WriteActivity extends SwipeBackActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnClose:
+            case R.id.btnCommentClose:
                 onBackPressed();
                 overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_top);
                 break;
-            case R.id.btnSubmit:
-                String title = this.nativeToUnicode(edtTitle.getText().toString());
+            case R.id.btnCommentComment:
                 String content = Html.toHtml(edtContent.getText(), Html.FROM_HTML_MODE_LEGACY);
                 content = this.nativeToUnicode(content.replace("&lt;", "<").replace("&gt;", ">"));
-
-                postRequest(APIsManagement.getWriteThread(), String.valueOf(currentTid), title, content);
-
+                putRequest(APIsManagement.getUpdateComment(currentCid), content);
                 break;
-            case R.id.btnUpload:
+            case R.id.btnCommentUpload:
                 Intent pickPhoto = new Intent(Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(pickPhoto, 0);

@@ -1,6 +1,7 @@
 package com.samjayspot.traveldiary;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -46,9 +47,10 @@ import okhttp3.Response;
 public class ThreadViewActivity extends SwipeBackActivity implements View.OnClickListener {
 
     int pid = 0, page = 1, sum = 1;
+    String subject = "";
 
     ImageView btnThreadBack, btnThreadReply, btnThreadMenu;
-    TextView txtThreadTitle;
+    TextView txtThreadTitle, btnThreadComment2;
     SharedPreferences sharedPreferences;
 
     RecyclerView recyclerThread;
@@ -63,6 +65,46 @@ public class ThreadViewActivity extends SwipeBackActivity implements View.OnClic
     ArrayList<String> comment = new ArrayList<String>();
     ArrayList<String> ctime = new ArrayList<String>();
     ArrayList<String> uptime = new ArrayList<String>();
+
+    public void deleteRequest(String url) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .addHeader("x-token", getSession().get(0).toString())
+                .url(url)
+                .delete()
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("bugs", e.toString());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+
+                    JSONObject json = new JSONObject(response.body().string());
+
+                    if (Boolean.parseBoolean(json.getString("result"))) {
+                        Intent deleteIntent = new Intent(ThreadViewActivity.this, MainActivity.class);
+                        startActivity(deleteIntent);
+                    } else {
+                        Snackbar snackbar = Snackbar.make(recyclerThread, json.getString("message"), Snackbar.LENGTH_SHORT);
+                        View rootSnackbar = snackbar.getView();
+                        rootSnackbar.setBackgroundColor(Color.RED);
+                        snackbar.show();
+                    }
+
+                } catch (JSONException e) {
+                    Snackbar snackbar = Snackbar.make(recyclerThread, e.toString(), Snackbar.LENGTH_SHORT);
+                    View rootSnackbar = snackbar.getView();
+                    rootSnackbar.setBackgroundColor(Color.RED);
+                    snackbar.show();
+                }
+            }
+        });
+    }
 
     public void getRequest(String url) throws IOException {
         OkHttpClient client = new OkHttpClient();
@@ -81,7 +123,10 @@ public class ThreadViewActivity extends SwipeBackActivity implements View.OnClic
                 try {
                     json = new JSONObject(response.body().string());
                     page = json.getInt("page");
-                    sum = json.getInt("sum");
+                    subject = json.getString("subject");
+                    if (json.getInt("sum") != 0) {
+                        sum = json.getInt("sum");
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -121,7 +166,7 @@ public class ThreadViewActivity extends SwipeBackActivity implements View.OnClic
 
                         for (int i = 0; i < comments.length(); i++) {
                             JSONObject cmt = comments.getJSONObject(i);
-                            cids.add(cmt.getInt("pid"));
+                            cids.add(cmt.getInt("cid"));
                             uids.add(cmt.getInt("uid"));
                             username.add(cmt.getString("username"));
                             comment.add(cmt.getString("comment"));
@@ -184,6 +229,7 @@ public class ThreadViewActivity extends SwipeBackActivity implements View.OnClic
         btnThreadReply = (ImageView) findViewById(R.id.btnThreadReply);
         btnThreadMenu = (ImageView) findViewById(R.id.btnThreadMenu);
         txtThreadTitle = (TextView) findViewById(R.id.txtTreadTitle);
+        btnThreadComment2 = (TextView) findViewById(R.id.btnThreadComment2);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -213,12 +259,7 @@ public class ThreadViewActivity extends SwipeBackActivity implements View.OnClic
                 super.onScrollStateChanged(recyclerView, newState);
 
                 if (!recyclerView.canScrollVertically(1)) {
-                    if (page == sum) {
-                        Snackbar snackbar = Snackbar.make(recyclerThread, "This is the end!", Snackbar.LENGTH_SHORT);
-                        View rootSnackbar = snackbar.getView();
-                        rootSnackbar.setBackgroundColor(getResources().getColor(R.color.main_blue));
-                        snackbar.show();
-                    } else {
+                    if (page != sum) {
                         Snackbar snackbar = Snackbar.make(recyclerThread, "loading page " + (page + 1), Snackbar.LENGTH_SHORT);
                         View rootSnackbar = snackbar.getView();
                         rootSnackbar.setBackgroundColor(getResources().getColor(R.color.main_blue));
@@ -255,6 +296,24 @@ public class ThreadViewActivity extends SwipeBackActivity implements View.OnClic
         });
     }
 
+    public ArrayList getSession() {
+        sharedPreferences = getSharedPreferences("traveldiary", Context.MODE_PRIVATE);
+        ArrayList session = new ArrayList();
+
+        if (!sharedPreferences.getString("token", "").equals("")) {
+            session.add(0, sharedPreferences.getString("token", ""));
+            session.add(1, sharedPreferences.getString("username", ""));
+            session.add(2, sharedPreferences.getString("reg", ""));
+            session.add(3, sharedPreferences.getString("last", ""));
+            session.add(4, sharedPreferences.getString("email", ""));
+            Log.d("response", String.valueOf(session));
+            return session;
+        } else {
+            Log.d("response", "No Session Record.");
+            return null;
+        }
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -265,7 +324,7 @@ public class ThreadViewActivity extends SwipeBackActivity implements View.OnClic
             case R.id.btnThreadReply:
                 Intent replyIntent = new Intent(ThreadViewActivity.this, CommentActivity.class);
                 replyIntent.putExtra("pid", pid);
-                replyIntent.putExtra("page", page);
+                replyIntent.putExtra("title", "Re: " + subject);
                 startActivity(replyIntent);
                 break;
             case R.id.btnThreadMenu:
@@ -277,10 +336,41 @@ public class ThreadViewActivity extends SwipeBackActivity implements View.OnClic
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.action_edit:
+                                try {
+                                    if (threads.get(0).getString("username").equals(getSession().get(1))) {
+                                        Intent editIntent = new Intent(ThreadViewActivity.this, EditThreadActivity.class);
 
+                                        editIntent.putExtra("pid", threads.get(0).getInt("pid"));
+                                        editIntent.putExtra("tid", threads.get(0).getInt("tid"));
+                                        editIntent.putExtra("subject", threads.get(0).getString("subject"));
+                                        editIntent.putExtra("content", threads.get(0).getString("content"));
+
+                                        startActivity(editIntent);
+                                    } else {
+                                        Snackbar snackbar = Snackbar.make(recyclerThread, "Only thread owner can edit!", Snackbar.LENGTH_SHORT);
+                                        View rootSnackbar = snackbar.getView();
+                                        rootSnackbar.setBackgroundColor(Color.RED);
+                                        snackbar.show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                                 return true;
                             case R.id.action_delete:
-
+                                try {
+                                    if (threads.get(0).getString("username").equals(getSession().get(1))) {
+                                        deleteRequest(APIsManagement.getDeleteThread(pid));
+                                    } else {
+                                        Snackbar snackbar = Snackbar.make(recyclerThread, "Only thread owner can delete!", Snackbar.LENGTH_SHORT);
+                                        View rootSnackbar = snackbar.getView();
+                                        rootSnackbar.setBackgroundColor(Color.RED);
+                                        snackbar.show();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                                 return true;
                             default:
                                 return false;
@@ -291,10 +381,14 @@ public class ThreadViewActivity extends SwipeBackActivity implements View.OnClic
                 popup.show();
 
                 break;
-            case R.id.btnThreadComment:
+            case R.id.btnThreadComment2:
                 Intent commentIntent = new Intent(ThreadViewActivity.this, CommentActivity.class);
                 commentIntent.putExtra("pid", pid);
-                commentIntent.putExtra("page", page);
+                try {
+                    commentIntent.putExtra("title", "Re: " + threads.get(0).getString("subject"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 startActivity(commentIntent);
                 break;
         }

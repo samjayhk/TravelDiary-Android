@@ -32,6 +32,8 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".ThreadViewActivity" />
+        <activity android:name=".EditThreadActivity" />
+        <activity android:name=".EditCommentActivity" />
     </application>
 
 </manifest>

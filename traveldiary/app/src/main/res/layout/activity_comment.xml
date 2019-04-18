@@ -5,6 +5,18 @@
     android:layout_height="match_parent"
     android:background="@color/main_2">
 
+    <ProgressBar
+        android:id="@+id/indeterminateProgressBar"
+        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="-6dp"
+        android:layout_marginTop="-6dp"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/main_blue"
+        android:indeterminateTintMode="src_atop"
+        android:visibility="invisible" />
+
     <RelativeLayout
         android:id="@+id/writeTopBar"
         android:layout_width="match_parent"
