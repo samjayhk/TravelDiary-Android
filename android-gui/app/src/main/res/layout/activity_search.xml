@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+ * PLEASE BE MIND THAT YOU COULD NOT COPY, MODIFY OR SHARE THIS PROJECT IF YOU ARE NOT GET PERMISSION.
+ * @samjayhk
+ -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/searchLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_1">
+
+    <RelativeLayout
+        android:id="@+id/searchBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/main_2">
+
+        <EditText
+            android:id="@+id/etSearch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="-35dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toLeftOf="@+id/btnSearchCancel"
+            android:layout_toRightOf="@+id/imgSearchIcon"
+            android:layout_weight="1"
+            android:background="@color/main_icon_3"
+            android:cursorVisible="false"
+            android:hint="@string/search"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingLeft="45dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/main_font_title"
+            android:textColorHint="@color/main_font_title"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/imgSearchIcon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:src="@drawable/search"
+            android:tint="@color/main_font_title" />
+
+        <Button
+            android:id="@+id/btnSearchCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:background="@android:color/transparent"
+            android:text="@string/cancel"
+            android:textColor="@color/main_font_content" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/listRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/searchBarLayout" />
+</RelativeLayout>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+ * PLEASE BE MIND THAT YOU COULD NOT COPY, MODIFY OR SHARE THIS PROJECT IF YOU ARE NOT GET PERMISSION.
+ * @samjayhk
+ -->
+
+<resources>
+    <string name="app_name">TravelDiary</string>
+
+    <string name="home">home</string>
+    <string name="write">write</string>
+    <string name="user">user</string>
+
+    <string name="search">Search</string>
+
+    <string name="tab_popular">Popular</string>
+    <string name="tab_list">Tags</string>
+
+    <string name="welcome_hint">Sign up to share your interests and travel plan!</string>
+    <string name="login">LogIn</string>
+    <string name="register">Register</string>
+
+    <string name="register_hint">Create an account</string>
+    <string name="register_term">By singing up, you agree to out Terms and that you have read our Private Policy and Content Policy.</string>
+    <string name="create_account">Create Account</string>
+
+    <string name="confirm_password">Confirm Password</string>
+    <string name="old_password">Old Password</string>
+    <string name="new_password">New Password</string>
+    <string name="update_password">Update Password</string>
+    <string name="password_term">By update password, you agree to out Terms and that you have read our Private Policy and Content Policy.</string>
+    <string name="email">Email</string>
+
+    <string name="share">Share</string>
+    <string name="cancel">Cancel</string>
+    <string name="login_hint">Log in to Travel Diary</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+
+    <string name="comment_hint">Add a comment</string>
+
+    <string name="comment">comment</string>
+    <string name="capture_image">Capture Image</string>
+    <string name="upload_image">Upload Image</string>
+
+    <string name="text_post">Text Post</string>
+    <string name="post">post</string>
+    <string name="get">Get</string>
+    <string name="title_hint">An interesting title</string>
+    <string name="content_hint">Your text post</string>
+
+    <string name="register_date">Register Date</string>
+    <string name="last_login">Last Login</string>
+    <string name="logout">Logout</string>
+</resources>

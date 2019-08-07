@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+ * PLEASE BE MIND THAT YOU COULD NOT COPY, MODIFY OR SHARE THIS PROJECT IF YOU ARE NOT GET PERMISSION.
+ * @samjayhk
+ -->
+
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <translate xmlns:android="http://schemas.android.com/apk/res/android"
+        android:duration="@android:integer/config_shortAnimTime"
+        android:toYDelta="100%p" />
+</set>

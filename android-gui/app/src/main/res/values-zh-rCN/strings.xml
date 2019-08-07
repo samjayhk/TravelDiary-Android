@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+ * PLEASE BE MIND THAT YOU COULD NOT COPY, MODIFY OR SHARE THIS PROJECT IF YOU ARE NOT GET PERMISSION.
+ * @samjayhk
+ -->
+
+<resources>
+    <string name="app_name">TravelDiary</string>
+
+    <string name="home">home</string>
+    <string name="write">write</string>
+    <string name="user">user</string>
+
+    <string name="search">搜索</string>
+
+    <string name="tab_popular">热门</string>
+    <string name="tab_list">类别</string>
+
+    <string name="welcome_hint">注册和分享您的有趣故事!</string>
+    <string name="login">登录</string>
+    <string name="register">注册</string>
+
+    <string name="register_hint">注册帐户</string>
+    <string name="register_term">当您帐户注册时，便意味着您同意我们的服务条款及隐私条款。</string>
+    <string name="create_account">创建帐户</string>
+
+    <string name="confirm_password">确认密码</string>
+    <string name="old_password">旧密码</string>
+    <string name="new_password">新密码</string>
+    <string name="update_password">更新密码</string>
+    <string name="password_term">当更改密码时，便意味着您同意我们的服务条款及隐私条款。</string>
+    <string name="email">电邮</string>
+
+    <string name="share">分享</string>
+    <string name="cancel">取消</string>
+    <string name="login_hint">登录至Travel Diary</string>
+    <string name="username">帐户名称</string>
+    <string name="password">密码</string>
+
+    <string name="comment_hint">回覆</string>
+
+    <string name="comment">回覆</string>
+    <string name="capture_image">拍照</string>
+    <string name="upload_image">上传</string>
+
+    <string name="text_post">撰写文章</string>
+    <string name="post">发布</string>
+    <string name="get">定位</string>
+    <string name="title_hint">有趣的标题</string>
+    <string name="content_hint">文章内容</string>
+
+    <string name="register_date">注册日期</string>
+    <string name="last_login">最後登录</string>
+    <string name="logout">登出</string>
+</resources>

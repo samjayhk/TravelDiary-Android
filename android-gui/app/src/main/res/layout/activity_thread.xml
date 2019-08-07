@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+ * PLEASE BE MIND THAT YOU COULD NOT COPY, MODIFY OR SHARE THIS PROJECT IF YOU ARE NOT GET PERMISSION.
+ * @samjayhk
+ -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_1"
+    android:scrollbars="vertical">
+
+    <RelativeLayout
+        android:id="@+id/threadTopBar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/main_2">
+
+        <ImageView
+            android:id="@+id/btnThreadBack"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/back"
+            android:tint="@color/main_icon_2_active" />
+
+        <TextView
+            android:id="@+id/txtTreadTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/btnThreadReply"
+            android:layout_toRightOf="@+id/btnThreadBack"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:overScrollMode="never"
+            android:textColor="@color/main_icon_2_active"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/btnThreadReply"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/btnThreadMenu"
+            android:src="@drawable/reply"
+            android:tint="@color/main_icon_2_active" />
+
+        <ImageView
+            android:id="@+id/btnThreadMenu"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/menu"
+            android:tint="@color/main_icon_2_active" />
+    </RelativeLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swifeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/hrLineBelowBottom"
+        android:layout_below="@+id/threadTopBar">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerThread"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            tools:ignore="ObsoleteLayoutParam,ScrollViewSize" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <View
+        android:id="@+id/hrLineBelowBottom"
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:layout_above="@+id/threadReply"
+        android:background="@color/main_icon_3"
+        android:visibility="visible" />
+
+    <RelativeLayout
+        android:id="@+id/threadReply"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/main_1">
+
+        <TextView
+            android:id="@+id/btnThreadComment2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:background="@color/main_icon_4"
+            android:hint="@string/comment_hint"
+            android:padding="10dp"
+            android:textColorHint="@color/main_font_title"
+            android:textSize="18sp" />
+    </RelativeLayout>
+</RelativeLayout>

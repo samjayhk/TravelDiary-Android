@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+ * PLEASE BE MIND THAT YOU COULD NOT COPY, MODIFY OR SHARE THIS PROJECT IF YOU ARE NOT GET PERMISSION.
+ * @samjayhk
+ -->
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/main_icon_2_active" android:state_checked="true" />
+    <item android:color="@color/main_icon_2" android:state_checked="false" />
+</selector>

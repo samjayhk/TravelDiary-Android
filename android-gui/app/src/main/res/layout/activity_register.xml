@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+ * PLEASE BE MIND THAT YOU COULD NOT COPY, MODIFY OR SHARE THIS PROJECT IF YOU ARE NOT GET PERMISSION.
+ * @samjayhk
+ -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relativeLayoutRegister"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_2">
+
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/up"
+        android:tint="@color/main_font_content" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnBack"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="20dp">
+
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:text="Travel Diary"
+            android:textColor="@color/main_font_content"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/txtTitleHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtTitle"
+            android:layout_marginTop="10dp"
+            android:text="@string/register_hint"
+            android:textColor="@color/main_font_content"
+            android:textSize="22sp" />
+
+        <EditText
+            android:id="@+id/edtRegisterUsername"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@+id/txtTitleHint"
+            android:layout_marginTop="10dp"
+            android:background="@color/main_icon_4"
+            android:hint="@string/username"
+            android:inputType="text"
+            android:paddingLeft="20dp"
+            android:paddingTop="5dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="5dp"
+            android:textColor="@color/main_font_content"
+            android:textColorHint="@color/main_font_content" />
+
+        <EditText
+            android:id="@+id/edtRegisterPassword"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@+id/edtRegisterUsername"
+            android:layout_marginTop="10dp"
+            android:background="@color/main_icon_4"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:paddingLeft="20dp"
+            android:paddingTop="5dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="5dp"
+            android:textColor="@color/main_font_content"
+            android:textColorHint="@color/main_font_content" />
+
+        <EditText
+            android:id="@+id/edtRegisterConfirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@+id/edtRegisterPassword"
+            android:layout_marginTop="10dp"
+            android:background="@color/main_icon_4"
+            android:hint="@string/confirm_password"
+            android:inputType="textPassword"
+            android:paddingLeft="20dp"
+            android:paddingTop="5dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="5dp"
+            android:textColor="@color/main_font_content"
+            android:textColorHint="@color/main_font_content" />
+
+        <EditText
+            android:id="@+id/edtRegisterEmail"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@+id/edtRegisterConfirmPassword"
+            android:layout_marginTop="10dp"
+            android:background="@color/main_icon_4"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:paddingLeft="20dp"
+            android:paddingTop="5dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="5dp"
+            android:textColor="@color/main_font_content"
+            android:textColorHint="@color/main_font_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edtRegisterEmail"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="@string/register_term"
+            android:textColor="@color/main_blue" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/main_1">
+
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:background="@color/main_blue"
+            android:text="@string/create_account"
+            android:textAllCaps="true"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+</RelativeLayout>

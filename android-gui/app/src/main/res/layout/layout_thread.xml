@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+ * PLEASE BE MIND THAT YOU COULD NOT COPY, MODIFY OR SHARE THIS PROJECT IF YOU ARE NOT GET PERMISSION.
+ * @samjayhk
+ -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    android:background="@color/main_2">
+
+    <RelativeLayout
+        android:id="@+id/commentContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/main_2">
+
+        <RelativeLayout
+            android:id="@+id/commentContentTop"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:id="@+id/commentUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:textColor="@color/main_font_title"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/commentTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/commentUsername"
+                android:textColor="@color/main_font_title" />
+
+            <ImageView
+                android:id="@+id/btnMenu"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/menu"
+                android:tint="@color/main_font_title" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/commentContentTop"
+            tools:ignore="WebViewLayout">
+
+            <WebView
+                android:id="@+id/commentAgentWebView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:scrollbars="none" />
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

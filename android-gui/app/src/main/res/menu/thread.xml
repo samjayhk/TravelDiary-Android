@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+ * PLEASE BE MIND THAT YOU COULD NOT COPY, MODIFY OR SHARE THIS PROJECT IF YOU ARE NOT GET PERMISSION.
+ * @samjayhk
+ -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_edit"
+        android:icon="@drawable/edit"
+        android:orderInCategory="1"
+        android:title="Edit Thread" />
+    <item
+        android:id="@+id/action_delete"
+        android:icon="@drawable/delete"
+        android:orderInCategory="1"
+        android:title="Delete Thread" />
+</menu>

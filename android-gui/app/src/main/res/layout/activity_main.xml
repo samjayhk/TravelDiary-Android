@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+ * PLEASE BE MIND THAT YOU COULD NOT COPY, MODIFY OR SHARE THIS PROJECT IF YOU ARE NOT GET PERMISSION.
+ * @samjayhk
+ -->
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/rootView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <FrameLayout
+            android:id="@+id/fragmentContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/hrLineBelowMain"
+            android:background="@color/main_1"></FrameLayout>
+
+        <View
+            android:id="@+id/hrLineBelowMain"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_above="@+id/bnvControl"
+            android:background="@color/main_icon_3"
+            android:visibility="visible" />
+
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/bnvControl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/main_2"
+            app:labelVisibilityMode="unlabeled"
+            app:menu="@menu/menu" />
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

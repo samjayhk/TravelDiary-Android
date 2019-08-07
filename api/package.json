@@ -1,0 +1,24 @@
+{
+  "name": "travel",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js ",
+    "stop": "pm2 stop all",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.2",
+    "dotenv": "^7.0.0",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.5.1",
+    "mysql": "^2.16.0",
+    "nodemon": "^1.18.10",
+    "pm2": "^3.5.0",
+    "restify": "^8.2.0",
+    "restify-cors-middleware": "^1.1.1"
+  }
+}
